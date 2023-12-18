@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+::placeholder {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+input {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+a {
+    text-decoration: none
+}
+
+* {
+    margin: 0
+}
+
+@import 'inc/header';
+@import 'inc/homepage';
+@import 'inc/product';
+@import 'inc/shop';
+@import 'inc/cart';
+@import 'inc/footer';

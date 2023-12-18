@@ -1,0 +1,181 @@
+.cart-page {
+    .breadcrumbs-wrapper {
+        padding: 10px 0 20px;
+        border-bottom: 0.1rem solid rgba(235, 235, 235, 0.55);
+        margin-bottom: 30px;
+
+        a {
+            color: #666;
+            font-size: 0.875rem;
+        }
+    }
+
+    .cart-table {
+        thead {
+            tr {
+                th {
+                    color: #999;
+                    font-weight: 400;
+                    line-height: 1.5;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                .product-col {
+                    margin-left: 0;
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+
+                    .cart-product {
+                        .product-media {
+                            img {
+                                height: 60px;
+                                object-fit: contain;
+                            }
+                        }
+
+                        .product-title {
+                            a {
+                                display: inline-block;
+                                color: #333;
+                                font-weight: 400;
+                                font-size: 16px;
+                                line-height: 1.25;
+                                margin: 0;
+                                letter-spacing: -.01em;
+                            }
+                        }
+                    }
+                }
+
+                .price-col {
+                    color: #333;
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 1.25;
+                    margin: 0;
+                }
+
+                .total-col {
+                    color: #c96;
+                    font-weight: 400;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    .summary-cart {
+        margin-bottom: 3rem;
+        padding: 20px;
+        border: .1rem dashed #d7d7d7;
+        background-color: #f9f9f9;
+        border-radius: .3rem;
+
+        .summary-title {
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 0;
+            padding-bottom: 18px;
+            border-bottom: .1rem solid #cccccc;
+        }
+
+        .table-summary {
+            line-height: 1.43;
+            color: #666;
+            border: none;
+            margin-bottom: 0;
+            width: 100%;
+
+            .summary-subtotal {
+                td {
+                    color: #333;
+                    font-weight: 400;
+                    font-size: 16px;
+                    height: 70px;
+                    border-bottom: .1rem solid #ebebeb;
+
+                }
+            }
+
+            .summary-shipping-estimate,
+            .summary-shipping {
+                color: #333;
+
+                td {
+                    color: inherit;
+                    height: auto;
+                    border-bottom: none;
+                    padding: 20px 0 10px;
+                }
+            }
+
+            .summary-shipping-row {
+                color: #333;
+
+                td {
+                    padding-bottom: 5px;
+                    font-weight: 300;
+                    color: inherit;
+                    font-size: 16px;
+
+                    .custom-control-label {
+                        padding-left: 10px;
+                    }
+
+                    &:last-child {
+                        text-align: right;
+                    }
+                }
+            }
+
+            .summary-shipping-estimate {
+                a {
+                    font-weight: 300;
+                    color: #999;
+                    font-size: 14px;
+                    border-bottom: 0.1rem solid #999;
+                    margin-bottom: 10px;
+                }
+            }
+
+            .summary-total {
+                td {
+                    padding: 20px 0;
+                    font-weight: 400;
+                    font-size: 18px;
+                    color: #c96;
+                    border-bottom: none;
+                }
+            }
+
+
+        }
+
+        .btn-order {
+            color: #c96;
+            background-color: transparent;
+            background-image: none;
+            border: 1px solid #c96;
+            box-shadow: none;
+            text-align: center;
+            display: inline-block;
+            padding: 8px 20px;
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+
+    .continue-shopping-btn {
+        border: 1px solid #ebebeb;
+        color: #333;
+        text-align: center;
+        display: inline-block;
+        padding: 8px 20px;
+        width: 100%;
+        font-size: 16px;
+        font-weight: 300;
+    }
+}
