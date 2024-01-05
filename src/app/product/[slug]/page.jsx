@@ -1,24 +1,18 @@
-import SingleProductContent from '@/components/products/SingleProductContent'
-import { Breadcrumbs, Container } from '@mantine/core'
-import { ChevronRightIcon } from 'lucide-react'
-import Link from 'next/link'
+import BreadCrumbComp from '@/components/breadcrumbs/BreadCrumbComp'
+import ProductContent from '@/components/product/ProductContent'
+import { fetchProduct } from '@/query/products'
+import { Container } from '@mantine/core'
 import React from 'react'
 
-export default function Page() {
+export default async function Page({params}) {
+    const {slug} = params
+    const product = await fetchProduct(slug)
     return (
         <div className='single-product-page'>
-            <div className="breadcrumbs-wrapper">
+            <BreadCrumbComp links={[{label:'Home', href:'/'},{label:'Shop', href:'/shop'}, {label:product?.title, href:`/product/${product?.slug}`}]}  />
+            <div className="product-content-wrapper">
                 <Container size={'lg'}>
-                    <Breadcrumbs separator={<ChevronRightIcon size={16} color='#666' />} mt="xs">
-                        <Link href={'/'}>Home</Link>
-                        <Link href={'/shop'}>Product</Link>
-                        <Link href={'/shop'}>Single Product</Link>
-                    </Breadcrumbs>
-                </Container>
-            </div>
-            <div className="page-content">
-                <Container size={'lg'}>
-                    <SingleProductContent />
+                <ProductContent product={product} />
                 </Container>
             </div>
         </div>

@@ -1,26 +1,23 @@
-import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-import Header from '@/components/partails/Header';
-import Footer from '@/components/partails/Footer';
+import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
-import '@/styles/style.scss'
+import '@/styles/style.scss';
+import Header from '@/components/header/Header';
+import { getSessionToken } from '@/query/session';
+import Footer from '@/components/footer/Footer';
 
 export const metadata = {
 	title: 'CGS Mart',
 	description: 'Shopping Store',
 }
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+	const sessionToken = await getSessionToken()
 	return (
 		<html lang="en">
-			<head>
-				<ColorSchemeScript />
-			</head>
-			<body>
+			<body className='page-body'>
 				<MantineProvider>
-					<Header />
-					<div className='page-wrapper'>
-						{children}
-					</div>
-					<Footer />
+					<Header/>
+					<div className='page-wrapper'>{children}</div>
+					<Footer/>
 				</MantineProvider>
 			</body>
 		</html >

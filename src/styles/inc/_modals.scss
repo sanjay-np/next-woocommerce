@@ -1,0 +1,32 @@
+.login-modal {
+    padding: 0 1rem 2rem;
+
+    .title-wrapper {
+        margin-bottom: 15px;
+
+        h1 {
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        p {
+            color: var(--text-light);
+            font-size: var(--size-sm);
+            padding-bottom: 10px;
+        }
+    }
+
+    .input-wrapper {
+        label{
+            color: var(--text-dark);
+        }
+        .forgot {
+            font-size: 14px;
+            margin-top: var(--mantine-spacing-sm);
+            color: #777;
+        }
+
+        padding-bottom:30px;
+    }
+}

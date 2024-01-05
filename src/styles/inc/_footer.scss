@@ -1,37 +1,30 @@
 .footer {
-    background-color: #f5f6f9;
-    margin-top: 100px;
-
+    background-color: var(--light-color);
     .footer-middle {
-        padding: 80px 0;
-
+        padding: var(--size-xxl) 0;
         .widget {
             p {
-                color: #777;
+                color: var(--text-light);
                 font-weight: 300;
                 font-size: 14px;
             }
-
             .widget-title {
-                color: #333;
-                letter-spacing: -.01em;
+                color: var(--text-dark);
+                letter-spacing: -.025em;
                 font-weight: 600;
-                margin-bottom: 15px;
+                margin-bottom: var(--size-sm);
+                font-size: var(--size-base);
             }
-
             .widget-list {
                 padding-left: 0;
-
                 li {
                     list-style: none;
                     margin-bottom: 5px;
-
                     a {
-                        color: #777;
+                        color: var(--text-light);
                         font-size: 14px;
-                        font-weight: 300;
+                        font-weight: 400;
                         position: relative;
-
                         &::before {
                             content: '';
                             display: block;
@@ -40,12 +33,11 @@
                             bottom: 0;
                             width: 100%;
                             height: 1px;
-                            background-color: #39f;
+                            background-color: var(--primary-color);
                             transform-origin: right center;
                             transform: scale(0, 1);
                             transition: transform .3s ease;
                         }
-
                         &:hover {
                             &::before {
                                 transform-origin: left center;
@@ -62,17 +54,14 @@
         .container {
             border-top: 1px solid #ddd;
             padding: 20px 0;
-
             p {
-                color: #777;
+                color: var(--text-light);
                 font-weight: 300;
                 margin: 0;
             }
-
             .footer-payments {
                 margin: 0;
             }
         }
-
     }
 }
