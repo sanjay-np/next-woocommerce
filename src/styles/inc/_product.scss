@@ -186,7 +186,7 @@
 .single-product-page {
 	.product-content-wrapper {
 		.product-top-section {
-			padding: var(--size-lg) 0;
+			padding: var(--size-xl) 0;
 
 			.product-gallery {
 				.slider-prev {
@@ -272,33 +272,20 @@
 				}
 
 				.product-filter-wrapper {
-					padding-top: 10px;
+					padding-top: 15px;
 
 					.details-filter-row {
 						margin-bottom: 10px;
 
 						label {
-							color: #666;
+							display: block;
+							color: var(--text-light);
+							padding-bottom: 5px;
 						}
 
-						.product-nav {
-							padding-top: 10px;
-
-							img {
-								width: 50px;
-							}
-						}
-
-						.size-guide {
-							color: #777;
-							font-weight: 300;
-							font-size: 14px;
-							display: flex;
-							align-items: center;
-
-							span {
-								padding-left: 5px;
-							}
+						input {
+							font-family: var(--font-family);
+							color: var(--text-dark);
 						}
 					}
 				}

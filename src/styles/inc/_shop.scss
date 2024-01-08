@@ -2,5 +2,84 @@
 	.page-content {
 		padding-top: var(--size-md);
 		margin-bottom: var(--size-xxxl);
+
+		.shop-sidebar {
+			.widget {
+				&.widget-clean {
+					color: var(--text-light);
+					display: flex;
+					justify-content: space-between;
+					border-bottom: var(--border);
+					padding-bottom: var(--size-sm);
+					font-size: 14px;
+
+					.sidebar-filter-clear {
+						color: var(--primary-color);
+					}
+				}
+
+				.widget-title {
+					color: var(--text-dark);
+					font-size: var(--size-md);
+					font-weight: 600;
+					padding-left: 0;
+					padding-right: 0;
+				}
+
+				.mantine-Accordion-content {
+					padding-left: 0;
+					padding-right: 0;
+
+					.size-filter-item,
+					.category-filter-item {
+						margin-bottom: 10px;
+
+						label {
+							color: var(--text-dark)
+						}
+					}
+				}
+
+				&.price-filter {
+					.filter-price-text {
+						color: var(--text-light);
+						font-weight: 300;
+						font-size: 14px;
+
+						span {
+							color: var(--primary-color);
+							padding-left: 4px;
+						}
+					}
+				}
+			}
+		}
+
+		.toolbox {
+			margin-bottom: var(--size-xl);
+
+			.toolbox-left {
+				.toolbox-info {
+					color: var(--text-light);
+					font-weight: 400;
+
+					span {
+						color: var(--text-dark);
+						font-weight: 400;
+					}
+				}
+			}
+
+			.toolbox-right {
+				select {
+					font-family: var(--font-family);
+					color: var(--text-light);
+				}
+			}
+		}
+	}
+
+	.pagination-wrapper {
+		padding-top: var(--size-lg);
 	}
 }

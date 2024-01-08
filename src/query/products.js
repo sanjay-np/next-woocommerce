@@ -55,7 +55,7 @@ export async function fetchProduct(slug) {
 				reviewCount
 				featuredImage {
 						node {
-								mediaItemUrl
+							mediaItemUrl
 						}
 				}
 				galleryImages(first: 100) {
@@ -113,15 +113,15 @@ export async function fetchProduct(slug) {
 												slug
 												featuredImage {
 														node {
-																mediaItemUrl
+															mediaItemUrl
 														}
 												}
 												attributes {
 														nodes {
-																id
-																name
-																label
-																value
+															id
+															name
+															label
+															value
 														}
 												}
 										}

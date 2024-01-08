@@ -18,6 +18,7 @@
 	--size-xl: 2rem;
 	--size-xxl: 3rem;
 	--size-xxxl: 4rem;
+	--border: 0.1rem solid rgba(235, 235, 235, 0.55);
 }
 
 * {
@@ -30,6 +31,7 @@ img {
 	max-width: 100%;
 }
 
+input,
 ::placeholder {
 	font-family: var(--font-family);
 }

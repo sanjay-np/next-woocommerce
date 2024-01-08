@@ -7,6 +7,13 @@ export default function ProductGallery(props) {
 	const { gallery, featured } = props
 	const images = []
 	images.push(featured.mediaItemUrl)
+	if (gallery) {
+		gallery.map((item, index) => {
+			images.push(item?.node.mediaItemUrl)
+		})
+	}
+
+
 	return (
 		<div className='product-gallery '>
 			<Carousel

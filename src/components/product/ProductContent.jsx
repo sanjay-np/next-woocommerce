@@ -5,6 +5,7 @@ import { FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIco
 import Link from 'next/link'
 import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'
+import ProductAttributes from './ProductAttributes'
 export default function ProductContent(props) {
 	const { product } = props
 	return (
@@ -38,15 +39,17 @@ export default function ProductContent(props) {
 							<div className="product-content">
 								<div dangerouslySetInnerHTML={{ __html: product?.shortDescription }} />
 							</div>
+							{product?.type === 'VARIABLE' && (<ProductAttributes attributes={product?.attributes.edges} />)}
 							<div className="product-details-action">
 								<div className="details-action-col">
 									<div className="product-details-quantity">
-										<Box maw={100} className='qty-wrapper'>
+										<Box maw={120} className='qty-wrapper'>
 											<TextInput
 												placeholder="Your email"
 												leftSection={<PlusIcon color='#666' size={18} strokeWidth={1} onClick={() => { console.log('heh') }} />}
 												rightSection={<MinusIcon color='#666' size={18} strokeWidth={1} />}
 												value={'1'}
+												readOnly
 											/>
 										</Box>
 									</div>
