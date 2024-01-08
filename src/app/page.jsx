@@ -10,33 +10,38 @@ import { fetchProducts } from "@/query/products"
 
 
 
+/**
+ * This function is the main page component of the homepage. It fetches the content from the CMS and
+ * the products from the API and displays them on the page.
+ * @returns {JSX.Element} The homepage component
+ */
 export default async function Page() {
-	const content = await getHomePageContent()
-	const products = await fetchProducts(4,'where: {orderby: {field: DATE, order: ASC }}')
-	const recommendedProducts = await fetchProducts(8, 'where: {orderby: {field: DATE, order: ASC }}')
+	const content = await getHomePageContent();
+	const products = await fetchProducts(4, 'where: {orderby: {field: DATE, order: ASC }}');
+	const recommendedProducts = await fetchProducts(8, 'where: {orderby: {field: DATE, order: ASC }}');
 
 	return (
 		<main className="main min-h-screen">
 			<div className="homepage">
 				<div className="hero-slider">
-					<HeroSlider items={content?.banner}/>
+					<HeroSlider items={content?.banner} />
 				</div>
 				<div className="categories-section">
-					<Categories items={content?.categories}/>
+					<Categories items={content?.categories} />
 				</div>
 				<div className="offer-section">
-					<Banner/>
+					<Banner />
 				</div>
 				<div className="trending-section">
-					<Trending products={products}/>
+					<Trending products={products} />
 				</div>
 				<div className="recommended-section">
-					<Recomended products={recommendedProducts}/>
+					<Recomended products={recommendedProducts} />
 				</div>
 				<div className="icon-box-section">
-					<IconBox/>
+					<IconBox />
 				</div>
 			</div>
 		</main>
-	)
+	);
 }

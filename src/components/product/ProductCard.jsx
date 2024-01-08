@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { productPrice } from '@/utils/priceUtil';
 
 export default function ProductCard(props) {
-    const {item} = props
+	const { item } = props
 	return (
 		<div className="product-card">
 			<figure className="product-media">
-                <Link href={`/product/${item?.slug}`}>
+				<Link href={`/product/${item?.slug}`}>
 					<img src={item?.featuredImage.node.mediaItemUrl} alt="Product image" className="product-image" />
 				</Link>
 				<div className="product-action-vertical">
@@ -18,37 +18,37 @@ export default function ProductCard(props) {
 					</a>
 				</div>
 			</figure>
-            <div className="product-body">
+			<div className="product-body">
 				<h3 className="product-title">
-					<Link href={{ pathname: `/product/${item?.slug}`}}>
-                    {item?.title}
-                    </Link>
+					<Link href={{ pathname: `/product/${item?.slug}` }}>
+						{item?.title}
+					</Link>
 				</h3>
 				<div className="product-price">
 					<span className="new-price">${productPrice(item?.price)}</span>
 					{
-						item?.type==='SIMPLE' &&(
+						item?.type === 'SIMPLE' && (
 							<>
 								{item?.price < item.regularPrice && (
 									<span className="old-price">${productPrice(item?.regularPrice)}</span>
 								)}
 							</>
-							
+
 						)
 					}
-					
+
 				</div>
-                <div className="ratings-container">
+				<div className="ratings-container">
 					<div className="ratings">
-						<Rating fractions={2} defaultValue={item.reviewCount} readOnly/>
+						<Rating fractions={2} defaultValue={item.reviewCount} readOnly />
 					</div>
 					<span className="ratings-text">( {item.reviewCount} Reviews )</span>
 				</div>
 			</div>
-			<div className="product-footer">				
+			<div className="product-footer">
 				<div className="product-action">
 					{
-						item?.type==='SIMPLE' &&(
+						item?.type === 'SIMPLE' && (
 							<Button
 								className='btn-product'
 								variant="transparent"
@@ -57,14 +57,14 @@ export default function ProductCard(props) {
 						)
 					}
 					{
-						item?.type==='VARIABLE' &&(
+						item?.type === 'VARIABLE' && (
 							<Link href={`/product/${item?.slug}`} className='btn-product show-more'>
 								Show More Details
 							</Link>
 						)
 					}
 				</div>
-            </div>
+			</div>
 		</div>
 	)
 }

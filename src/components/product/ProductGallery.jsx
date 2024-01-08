@@ -4,11 +4,11 @@ import { Carousel } from 'react-responsive-carousel';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ProductGallery(props) {
-    const {gallery, featured} = props
-    const images = []
-    images.push(featured.mediaItemUrl)
-    return (
-        <div className='product-gallery '>
+	const { gallery, featured } = props
+	const images = []
+	images.push(featured.mediaItemUrl)
+	return (
+		<div className='product-gallery '>
 			<Carousel
 				showIndicators={false}
 				autoPlay={true}
@@ -31,12 +31,12 @@ export default function ProductGallery(props) {
 					)
 				}
 			>
-                {images.map((item, index) => (
-                    <div className="gallery-item" key={index}>
-                        <img src={item} />
-                    </div>
-                ))}
+				{images.map((item, index) => (
+					<div className="gallery-item" key={index}>
+						<img src={item} />
+					</div>
+				))}
 			</Carousel>
 		</div>
-    )
+	)
 }

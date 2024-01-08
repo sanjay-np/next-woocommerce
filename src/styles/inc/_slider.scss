@@ -1,28 +1,28 @@
-.carousel-slider{
-    .slider-prev {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 20;
-        padding: 1rem;
-    }
+.carousel-slider {
+	.slider-prev {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		z-index: 20;
+		padding: 1rem;
+	}
 
-    .slider-next {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 20;
-        padding: 1rem;
-    }
+	.slider-next {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		z-index: 20;
+		padding: 1rem;
+	}
 
 }

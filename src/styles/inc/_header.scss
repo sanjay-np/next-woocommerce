@@ -1,45 +1,51 @@
-.main-header{
-    .header-top{
-        .top-header-wrapper{
-            padding-top: var(--size-base);
-            padding-bottom: var(--size-base);
-            border-bottom: 1px solid var(--light-color);
-            .left-content{
-                .logo-wrapper{
-                    img{
-                        max-width: 100%;
-                    }
-                }
-            }
-            .right-content{
-                .icon-wrapper{
-                    text-align: center;
-                    p{
-                        font-size: var(--size-sm);
-                        color: var(--text-light);
-                    }
-                }
-            }
-        }
-    }
-    .header-bottom{
-        .bottom-header-wrapper{
-            padding-top: var(--size-xs);
-            padding-bottom: var(--size-xs);
-            border-bottom: 0.1rem solid rgba(235, 235, 235, 0.55);
-            .header-left{
-                color: var(--text-dark)
-            }
+.main-header {
+	.header-top {
+		.top-header-wrapper {
+			padding-top: var(--size-base);
+			padding-bottom: var(--size-base);
+			border-bottom: 1px solid var(--light-color);
 
-            .header-center {
-                a {
-                    color: var(--text-dark);
-                    font-weight: 400;
-                }
-            }
-            .header-right{
-                color: var(--text-dark);
-            }
-        }
-    }
+			.left-content {
+				.logo-wrapper {
+					img {
+						max-width: 100%;
+					}
+				}
+			}
+
+			.right-content {
+				.icon-wrapper {
+					text-align: center;
+
+					p {
+						font-size: var(--size-sm);
+						color: var(--text-light);
+					}
+				}
+			}
+		}
+	}
+
+	.header-bottom {
+		.bottom-header-wrapper {
+			padding-top: var(--size-xs);
+			padding-bottom: var(--size-xs);
+			border-bottom: 0.1rem solid rgba(235, 235, 235, 0.55);
+
+			.header-left {
+				color: var(--text-dark)
+			}
+
+			.header-center {
+				a {
+					color: var(--text-dark);
+					font-weight: 400;
+				}
+			}
+
+			.header-right {
+				color: var(--text-dark);
+			}
+		}
+	}
 }
