@@ -12,8 +12,8 @@ import { fetchProducts } from "@/query/products"
 
 export default async function Page() {
 	const content = await getHomePageContent()
-	const products = await fetchProducts(4,'DESC')
-	const recommendedProducts = await fetchProducts(8, 'ASC')
+	const products = await fetchProducts(4,'where: {orderby: {field: DATE, order: ASC }}')
+	const recommendedProducts = await fetchProducts(8, 'where: {orderby: {field: DATE, order: ASC }}')
 
 	return (
 		<main className="main min-h-screen">

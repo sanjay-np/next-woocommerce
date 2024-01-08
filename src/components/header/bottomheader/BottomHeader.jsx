@@ -28,7 +28,6 @@ export default function BottomHeader() {
                           <Link href="#"><p>Blogs</p></Link>
                           <Link href="#"><p>Contact Us</p></Link>
                       </Flex>
-
                   </div>
               </Grid.Col>
               <Grid.Col span={3}>

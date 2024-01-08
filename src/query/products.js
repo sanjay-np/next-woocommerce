@@ -1,22 +1,21 @@
 import { fetchQuery } from "@/utils/fetchQuery"
 
-export async function fetchProducts(count, sort='ASC'){
-    count = count + 1;
+export async function fetchProducts(count, filterQuery=''){
     const query = {
         query: `{
-            products(first: ${count}, where: {orderby: {field: DATE, order: ${sort} }}) {
+            products(first: ${count}, ${filterQuery}) {
                 edges {
                     node {
                         id
                         slug
                         sku
                         type
+                        reviewCount
                         ... on SimpleProduct {
                             id
                             title(format: RENDERED)
                             price(format: RAW)
                             regularPrice(format: RAW)
-                            reviewCount
                             featuredImage {
                                 node {
                                     mediaItemUrl
@@ -27,7 +26,6 @@ export async function fetchProducts(count, sort='ASC'){
                             id
                             title(format: RENDERED)
                             price(format: RAW)
-                            reviewCount
                             featuredImage {
                                 node {
                                     mediaItemUrl
@@ -46,31 +44,88 @@ export async function fetchProducts(count, sort='ASC'){
 export async function fetchProduct(slug){
     const query = {
         query: `{
-            product(id: "${slug}", idType: SLUG) {
-                id
-                content(format: RENDERED)
-                shortDescription
-                galleryImages(first: 100) {
-                    edges {
-                        node {
-                            id
-                            mediaItemUrl
-                        }
-                    }
+        product(id: "${slug}", idType: SLUG) {
+            id
+            content(format: RENDERED)
+            shortDescription
+            sku
+            slug
+            title
+            type
+            reviewCount
+            featuredImage {
+                node {
+                    mediaItemUrl
                 }
-                featuredImage {
+            }
+            galleryImages(first: 100) {
+                edges {
                     node {
+                        id
                         mediaItemUrl
                     }
                 }
-                sku
-                title
-                slug
-                reviewCount
-                ... on SimpleProduct {
-                    id
-                    name
-                    price(format: RAW)
+            }
+            ... on SimpleProduct {
+                id
+                name
+                price(format: RAW)
+                regularPrice(format: RAW)
+                productCategories {
+                    edges {
+                        node {
+                            id
+                            name
+                            slug
+                        }
+                    }
+                }
+            }
+            ... on VariableProduct {
+                id
+                name
+                price(format: RAW)
+                productCategories {
+                    edges {
+                        node {
+                            id
+                            name
+                            slug
+                        }
+                    }
+                }
+                regularPrice(format: RAW)
+                    attributes {
+                        edges {
+                            node {
+                                name
+                                label
+                                options
+                            }
+                        }
+                    }
+                    variations {
+                        nodes {
+                            databaseId
+                            name
+                            price
+                            sku
+                            slug
+                            featuredImage {
+                                node {
+                                    mediaItemUrl
+                                }
+                            }
+                            attributes {
+                                nodes {
+                                    id
+                                    name
+                                    label
+                                    value
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }`
@@ -79,49 +134,65 @@ export async function fetchProduct(slug){
     return  response?.data?.product    
 }
 
-export async function fetchProductByCategory(slug){
+export async function fetchProductsByCategory(slug){
     const query = {
-        query: `
-        {
+        query: `{
             productCategory(id: "${slug}", idType: SLUG) {
                 id
                 name
-                products(first: 100) {
-                    edges {
-                        node {
+            }
+            products(where: {categoryIn: "${slug}"}) {
+                edges {
+                    node {
+                        id
+                        slug
+                        sku
+                        type
+                        reviewCount
+                        ... on SimpleProduct {
                             id
-                            slug
-                            sku
-                            type
-                            ... on SimpleProduct {
-                                id
-                                title(format: RENDERED)
-                                price(format: RAW)
-                                regularPrice(format: RAW)
-                                reviewCount
-                                featuredImage {
-                                    node {
-                                        mediaItemUrl
-                                    }
+                            title(format: RENDERED)
+                            price(format: RAW)
+                            regularPrice(format: RAW)
+                            featuredImage {
+                                node {
+                                    mediaItemUrl
                                 }
                             }
-                            ... on VariableProduct {
-                                id
-                                title(format: RENDERED)
-                                price(format: RAW)
-                                reviewCount
-                                featuredImage {
-                                    node {
-                                        mediaItemUrl
-                                    }
+                        }
+                        ... on VariableProduct {
+                            id
+                            title(format: RENDERED)
+                            price(format: RAW)
+                            featuredImage {
+                                node {
+                                    mediaItemUrl
                                 }
                             }
-                        } 
+                        }
                     }
                 }
             }
         }`
     }
     const response  = await fetchQuery(query)
-    return  response?.data?.productCategory
+    return  response?.data
+}
+
+export async function fetchProductCategories(){
+    const query = {
+        query: `{
+            productCategories {
+                edges {
+                    node {
+                        id
+                        name
+                        slug
+                    }
+                }
+            }
+        }`
+    }
+    const response  = await fetchQuery(query)
+    return  response?.data?.productCategories?.edges
 }

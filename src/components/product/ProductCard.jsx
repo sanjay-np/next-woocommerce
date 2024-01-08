@@ -1,5 +1,5 @@
 import React from 'react'
-import { Rating } from '@mantine/core';
+import { Button, Rating } from '@mantine/core';
 import { Heart, ScanSearch, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { productPrice } from '@/utils/priceUtil';
@@ -47,14 +47,22 @@ export default function ProductCard(props) {
 			</div>
 			<div className="product-footer">				
 				<div className="product-action">
-					<a href="#" className="btn-product btn-cart">
-						<ShoppingCart color='#cccccc' size={18} />
-						<span>add to cart</span>
-					</a>
-					<Link href={'/product/single-product'} className="btn-product btn-quickview">
-						<ScanSearch color='#cccccc' size={18} />
-						<span>more info</span>
-					</Link>					
+					{
+						item?.type==='SIMPLE' &&(
+							<Button
+								className='btn-product'
+								variant="transparent"
+								fullWidth
+							>Add to Cart</Button>
+						)
+					}
+					{
+						item?.type==='VARIABLE' &&(
+							<Link href={`/product/${item?.slug}`} className='btn-product show-more'>
+								Show More Details
+							</Link>
+						)
+					}
 				</div>
             </div>
 		</div>

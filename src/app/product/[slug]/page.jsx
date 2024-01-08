@@ -12,7 +12,7 @@ export default async function Page({params}) {
             <BreadCrumbComp links={[{label:'Home', href:'/'},{label:'Shop', href:'/shop'}, {label:product?.title, href:`/product/${product?.slug}`}]}  />
             <div className="product-content-wrapper">
                 <Container size={'lg'}>
-                <ProductContent product={product} />
+                    <ProductContent product={product} />
                 </Container>
             </div>
         </div>

@@ -24,7 +24,17 @@ export default function ProductContent(props) {
                                 </Group>
                             </div>
                             <div className="product-price">
-                                ${productPrice(product?.price)}
+                                <span>${productPrice(product?.price)}</span>
+                                {
+                                    product?.type==='SIMPLE' &&(
+                                        <>
+                                            {product?.price < product.regularPrice && (
+                                                <span className="old-price">${productPrice(product?.regularPrice)}</span>
+                                            )}
+                                        </>
+                                        
+                                    )
+                                }
                             </div>
                             <div className="product-content">
                                 <div dangerouslySetInnerHTML={{__html: product?.shortDescription}} />

@@ -10,17 +10,17 @@
         background-color: #d7d7d7;
         margin: 0;
         overflow: hidden;
-        &::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            background-color: #999;
-            transition: all .3s;
-        }
+        // &::before {
+        //     content: '';
+        //     position: absolute;
+        //     width: 100%;
+        //     height: 100%;
+        //     left: 0;
+        //     top: 0;
+        //     opacity: 0;
+        //     background-color: #999;
+        //     transition: all .3s;
+        // }
         img {
             width: 100%;
             height: auto;
@@ -104,7 +104,7 @@
         left: 0;
         right: 0;
         background-color: #fff;
-        transform: translateY(70%);
+        transform: translateY(80%);
         visibility: hidden;
         transition: all .35s ease;
         padding: 0;        
@@ -117,7 +117,7 @@
             opacity: 1;
             transform: translateY(0);
             background-color: transparent;
-            padding: 0.5rem 0.75rem;
+            padding: 0.5rem 0.5rem;
             border-top: .1rem solid #ebebeb;
             border-bottom: none;
             margin-top: 1rem;
@@ -125,30 +125,30 @@
             align-items: center;
             justify-content: space-around;
             .btn-product {
-                font-weight: 400;
+                font-weight: 600;
                 padding-top: .1rem;
                 padding-bottom: .1rem;
                 text-transform: capitalize;
-                display: flex;
-                span {
-                    color: #777;
-                    font-size: 14px;
-                    padding-left: 5px;
-                }
-                +.btn-product {
-                    border-left: .1rem dotted #e5e5e5;
-                    padding-left: 8px;
+                background-color: var(--primary-color);
+                color: white;
+                &.show-more{
+                    width: 100%;
+                    text-align: center;
+                    padding:var(--size-xxs) var(--size-xs);
+                    border-radius: var(--border-radius);
+                    font-size: var(--size-base);
+                    letter-spacing: -.01em;
                 }
             }
         }
     }
 
     &:hover {
-        .product-media {
-            &::before {
-                opacity: .2;
-            }
-        }
+        // .product-media {
+        //     &::before {
+        //         opacity: .2;
+        //     }
+        // }
         .product-action-vertical {
             visibility: visible;
             opacity: 1;
@@ -224,6 +224,13 @@
                     color: var(--primary-color);
                     font-size: 24px;
                     font-weight: 500;
+                    span{
+                        &.old-price{
+                            color: var(--text-light);
+                            padding-left: 10px;
+                            text-decoration: line-through;
+                        }
+                    }
                 }
                 .product-content {
                     color: var(--text-light);
@@ -351,7 +358,7 @@
     
                 .tab-list {
                     .mantine-Tabs-tabLabel {
-                        color: #333;
+                        color: var(--text-dark);
                         text-transform: capitalize;
                         font-size: 16px;
                     }
@@ -360,12 +367,10 @@
                 .tab-content {
                     .panel-content {
                         padding-top: 20px;
-    
                         .product-desc-content {
-                            color: #333;
-    
+                            color: var(--text-dark);
                             h3 {
-                                color: #333;
+                                color: var(--text-dark);
                                 font-weight: 400;
                                 font-size: 16px;
                                 letter-spacing: -.01em;
@@ -373,8 +378,8 @@
                             }
     
                             p {
-                                font-weight: 300;
-                                color: #666;
+                                font-weight: 400;
+                                color: var(--text-light);
                                 font-size: 14px;
                                 margin-bottom: 15px;
                             }
