@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Rating } from '@mantine/core';
 import { Heart, ScanSearch, ShoppingCart } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from 'nextjs13-progress';
 import { productPrice } from '@/utils/priceUtil';
 
 export default function ProductCard(props) {

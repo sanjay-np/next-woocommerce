@@ -1,7 +1,7 @@
 import CartTable from '@/components/cart/cartTable'
 import { Breadcrumbs, Container, Grid } from '@mantine/core'
 import { ChevronRightIcon } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'nextjs13-progress'
 import React from 'react'
 
 export default function Page() {

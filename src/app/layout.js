@@ -4,6 +4,7 @@ import '@/styles/style.scss';
 import Header from '@/components/header/Header';
 import { getSessionToken } from '@/query/session';
 import Footer from '@/components/footer/Footer';
+import { Next13NProgress } from 'nextjs13-progress';
 
 export const metadata = {
 	title: 'CGS Mart',
@@ -15,9 +16,10 @@ export default async function RootLayout({ children }) {
 		<html lang="en">
 			<body className='page-body'>
 				<MantineProvider>
-					<Header/>
+					<Header />
 					<div className='page-wrapper'>{children}</div>
-					<Footer/>
+					<Footer />
+					<Next13NProgress color="#C96" height={3} />
 				</MantineProvider>
 			</body>
 		</html >

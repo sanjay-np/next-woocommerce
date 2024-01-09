@@ -1,5 +1,5 @@
 import { Container, SimpleGrid } from '@mantine/core'
-import Link from 'next/link'
+import { Link } from 'nextjs13-progress'
 import React from 'react'
 
 export default function Categories(props) {

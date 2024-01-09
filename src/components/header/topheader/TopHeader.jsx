@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Flex, Grid, Input } from '@mantine/core';
 import { HeartIcon, SearchIcon, ShuffleIcon } from 'lucide-react'
-import Link from 'next/link';
+import { Link } from 'nextjs13-progress';
 import Image from 'next/image'
 import MiniCart from '@/components/cart/miniCart/MiniCart';
 

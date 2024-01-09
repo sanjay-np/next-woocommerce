@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Flex, Grid, UnstyledButton } from '@mantine/core';
 import { User2Icon } from 'lucide-react'
-import Link from 'next/link';
+import { Link } from 'nextjs13-progress';
 import CategoryMenu from '../menus/CategoryMenu';
 import { useDisclosure } from '@mantine/hooks';
 import LoginModal from '@/components/modals/LoginModal';
