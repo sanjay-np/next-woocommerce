@@ -1,5 +1,4 @@
 import BreadCrumbComp from '@/components/breadcrumbs/BreadCrumbComp'
-import ShopContainer from '@/components/page/shop/ShopContainer'
 import CategoryContainer from '@/components/product/CategoryContainer'
 import { fetchProductsByCategory } from '@/query/products'
 import { Container } from '@mantine/core'

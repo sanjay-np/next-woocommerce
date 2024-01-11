@@ -1,4 +1,4 @@
-import CartTable from '@/components/cart/cartTable'
+// import CartTable from '@/components/cart/cartTable'
 import { Breadcrumbs, Container, Grid } from '@mantine/core'
 import { ChevronRightIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
@@ -20,7 +20,7 @@ export default function Page() {
 			<div className="page-content">
 				<div className="cart">
 					<Container size={'lg'}>
-						<CartTable />
+						{/* <CartTable /> */}
 					</Container>
 				</div>
 			</div>
