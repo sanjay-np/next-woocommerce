@@ -17,8 +17,9 @@ import { fetchProducts } from "@/query/products"
  */
 export default async function Page() {
 	const content = await getHomePageContent();
-	const products = await fetchProducts(4, 'where: {orderby: {field: DATE, order: ASC }}');
-	const recommendedProducts = await fetchProducts(8, 'where: {orderby: {field: DATE, order: ASC }}');
+	const trendingProducts = await fetchProducts(4, '', 'featured: true');
+	const onSaleProducts = await fetchProducts(4, '', 'onSale: true');
+	const recommendedProducts = await fetchProducts(8, '', 'orderby: {field: DATE, order: ASC }');
 
 	return (
 		<main className="main min-h-screen">
@@ -33,10 +34,10 @@ export default async function Page() {
 					<Banner />
 				</div>
 				<div className="trending-section">
-					<Trending products={products} />
+					<Trending trendingProducts={trendingProducts?.edges} onSaleProducts={onSaleProducts?.edges} />
 				</div>
 				<div className="recommended-section">
-					<Recomended products={recommendedProducts} />
+					<Recomended products={recommendedProducts?.edges} />
 				</div>
 				<div className="icon-box-section">
 					<IconBox />

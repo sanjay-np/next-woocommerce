@@ -1,10 +1,10 @@
 'use client'
 import ProductCard from '@/components/product/ProductCard'
-import { Grid, SimpleGrid } from '@mantine/core'
+import { Flex, Grid, Group, NativeSelect, SimpleGrid } from '@mantine/core'
 import React from 'react'
 
 export default function CategoryContainer(props) {
-	const { products } = props
+	const { productsInfo } = props
 	return (
 		<>
 			<Grid>
@@ -14,8 +14,27 @@ export default function CategoryContainer(props) {
 					</div>
 				</Grid.Col>
 				<Grid.Col span={9}>
+					<div className="toolbox">
+						<Flex justify={'space-between'} align={'center'}>
+							<div className="toolbox-left">
+								<div className="toolbox-info">
+									Showing <span>{productsInfo?.edges.length} of {productsInfo?.pageInfo?.total}</span> Products
+								</div>
+							</div>
+							<div className="toolbox-right">
+								<div className="toolbox-sort">
+									<Group>
+										<label>Sort by:</label>
+										<NativeSelect
+											data={['Most Popular', 'Most Rated', 'Date']}
+										/>
+									</Group>
+								</div>
+							</div>
+						</Flex>
+					</div>
 					<SimpleGrid cols={3}>
-						{products?.map((item, index) => (
+						{productsInfo?.edges?.map((item, index) => (
 							<ProductCard item={item?.node} key={item?.node.id} />
 						))}
 					</SimpleGrid>

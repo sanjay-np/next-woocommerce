@@ -9,7 +9,7 @@ export default async function Page({ params }) {
 	const product = await fetchProduct(slug)
 	return (
 		<div className='single-product-page'>
-			<BreadCrumbComp links={[{ label: 'Home', href: '/' }, { label: 'Shop', href: '/shop' }, { label: product?.title, href: `/product/${product?.slug}` }]} />
+			<BreadCrumbComp links={[{ label: 'Home', href: '/' }, { label: 'Shop', href: '/shop' }, { label: product?.name, href: `/product/${product?.slug}` }]} />
 			<div className="product-content-wrapper">
 				<Container size={'lg'}>
 					<ProductContent product={product} />

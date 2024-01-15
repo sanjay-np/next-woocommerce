@@ -99,7 +99,7 @@
 			align-items: center;
 			line-height: 1;
 			white-space: nowrap;
-			padding: var(--size-base) 0 0;
+			padding: var(--size-xs) 0 0;
 
 			.ratings-text {
 				color: var(--text-light);
@@ -117,7 +117,7 @@
 		left: 0;
 		right: 0;
 		background-color: #fff;
-		transform: translateY(80%);
+		transform: translateY(85%);
 		visibility: hidden;
 		transition: all .35s ease;
 		padding: 0;
@@ -134,7 +134,7 @@
 			padding: 0.5rem 0.5rem;
 			border-top: .1rem solid #ebebeb;
 			border-bottom: none;
-			margin-top: 1rem;
+			margin-top: var(--size-sm);
 			display: flex;
 			align-items: center;
 			justify-content: space-around;
@@ -294,9 +294,14 @@
 					.qty-wrapper {
 						padding-top: 10px;
 
+						.mantine-TextInput-section {
+							cursor: pointer;
+						}
+
 						input {
 							text-align: center;
 							font-family: var(--font-family);
+							color: var(--text-dark);
 						}
 					}
 

@@ -4,7 +4,7 @@ import { Container, Flex, SimpleGrid, Tabs, rem } from '@mantine/core';
 import ProductCard from '@/components/product/ProductCard';
 
 export default function Trending(props) {
-	const { products } = props
+	const { trendingProducts, onSaleProducts } = props
 	return (
 		<div className='trending-wrapper'>
 			<Container size={'lg'}>
@@ -25,7 +25,7 @@ export default function Trending(props) {
 						<Tabs.Panel value="topRated">
 							<div className="products">
 								<SimpleGrid cols={4}>
-									{products?.map((item, index) => (
+									{trendingProducts?.map((item, index) => (
 										<ProductCard item={item?.node} key={item?.node.id} />
 									))}
 								</SimpleGrid>
@@ -34,7 +34,7 @@ export default function Trending(props) {
 						<Tabs.Panel value="bestSelling">
 							<div className="products">
 								<SimpleGrid cols={4}>
-									{products?.map((item, index) => (
+									{trendingProducts?.map((item, index) => (
 										<ProductCard item={item?.node} key={item?.node.id} />
 									))}
 								</SimpleGrid>
@@ -43,7 +43,7 @@ export default function Trending(props) {
 						<Tabs.Panel value="onSale">
 							<div className="products">
 								<SimpleGrid cols={4}>
-									{products?.map((item, index) => (
+									{onSaleProducts?.map((item, index) => (
 										<ProductCard item={item?.node} key={item?.node.id} />
 									))}
 								</SimpleGrid>

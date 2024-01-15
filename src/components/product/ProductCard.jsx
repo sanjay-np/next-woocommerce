@@ -10,7 +10,7 @@ export default function ProductCard(props) {
 		<div className="product-card">
 			<figure className="product-media">
 				<Link href={`/product/${item?.slug}`}>
-					<img src={item?.featuredImage.node.mediaItemUrl} alt="Product image" className="product-image" />
+					<img src={item?.image.mediaItemUrl} alt="Product image" className="product-image" />
 				</Link>
 				<div className="product-action-vertical">
 					<a href="#" className="btn-product-icon btn-wishlist btn-expandable">
@@ -21,7 +21,7 @@ export default function ProductCard(props) {
 			<div className="product-body">
 				<h3 className="product-title">
 					<Link href={{ pathname: `/product/${item?.slug}` }}>
-						{item?.title}
+						{item?.name}
 					</Link>
 				</h3>
 				<div className="product-price">

@@ -1,10 +1,11 @@
 'use client'
 import ProductCard from '@/components/product/ProductCard'
 import { Accordion, Checkbox, ColorSwatch, Flex, Grid, Group, NativeSelect, Pagination, RangeSlider, SimpleGrid } from '@mantine/core'
-import React from 'react'
+import { useState } from 'react'
 
 export default function ShopContainer(props) {
-	const { products, categories } = props
+	const { productsInfo, categories } = props
+	const [priceRange, setPriceRange] = useState([0, 1000])
 	return (
 		<>
 			<Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
@@ -12,7 +13,7 @@ export default function ShopContainer(props) {
 					<div className='shop-sidebar'>
 						<div className="widget widget-clean">
 							<label>Filters:</label>
-							<a href="#" className="sidebar-filter-clear">Clean All</a>
+							<a href="#" className="sidebar-filter-clear">Clear</a>
 						</div>
 						<Accordion variant="default" multiple defaultValue={['price', 'category', 'color', 'size']}>
 							<Accordion.Item value="price" className='widget price-filter'>
@@ -20,19 +21,28 @@ export default function ShopContainer(props) {
 								<Accordion.Panel>
 									<div className="filter-price-text">
 										Price Range:
-										<span className="filter-price-range">$0 - $1000</span>
+										<span className="filter-price-range">${priceRange[0]} - ${priceRange[1]}</span>
 									</div>
 									<RangeSlider
 										color='#C96'
 										label={null}
 										marks={[
 											{ value: 0, label: '$0' },
-											{ value: 100, label: '$1000' },
+											{ value: 1000, label: '$1000' },
 										]}
-										mt="xl" mb="xl" ml="xs" mr="xs"
+										mt="xl"
+										mb="xl"
+										ml="xs"
+										mr="xs"
 										showLabelOnHover={false}
 										size="xs"
 										thumbSize={15}
+										onChange={setPriceRange}
+										min={0}
+										max={1000}
+										step={1}
+										defaultValue={priceRange}
+										minRange={1}
 									/>
 								</Accordion.Panel>
 							</Accordion.Item>
@@ -44,6 +54,7 @@ export default function ShopContainer(props) {
 											<div key={item?.node.id} className='category-filter-item'>
 												<Checkbox
 													label={`${item?.node.name}`}
+													color='#C96'
 												/>
 											</div>
 										))}
@@ -67,31 +78,37 @@ export default function ShopContainer(props) {
 									<div className="size-filter-item">
 										<Checkbox
 											label={`XS`}
+											color='#C96'
 										/>
 									</div>
 									<div className="size-filter-item">
 										<Checkbox
 											label={`S`}
+											color='#C96'
 										/>
 									</div>
 									<div className="size-filter-item">
 										<Checkbox
 											label={`M`}
+											color='#C96'
 										/>
 									</div>
 									<div className="size-filter-item">
 										<Checkbox
 											label={`L`}
+											color='#C96'
 										/>
 									</div>
 									<div className="size-filter-item">
 										<Checkbox
 											label={`XL`}
+											color='#C96'
 										/>
 									</div>
 									<div className="size-filter-item">
 										<Checkbox
 											label={`XXL`}
+											color='#C96'
 										/>
 									</div>
 								</Accordion.Panel>
@@ -104,7 +121,7 @@ export default function ShopContainer(props) {
 						<Flex justify={'space-between'} align={'center'}>
 							<div className="toolbox-left">
 								<div className="toolbox-info">
-									Showing <span>9 of 56</span> Products
+									Showing <span>{productsInfo?.edges.length} of {productsInfo?.pageInfo?.total}</span> Products
 								</div>
 							</div>
 							<div className="toolbox-right">
@@ -120,7 +137,7 @@ export default function ShopContainer(props) {
 						</Flex>
 					</div>
 					<SimpleGrid cols={3}>
-						{products?.map((item, index) => (
+						{productsInfo?.edges?.map((item, index) => (
 							<ProductCard item={item?.node} key={item?.node.id} />
 						))}
 					</SimpleGrid>

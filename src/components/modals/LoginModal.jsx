@@ -19,7 +19,7 @@ export default function LoginModal(props) {
 	});
 
 	return (
-		<Modal opened={props.state} onClose={() => { props.method.close() }}>
+		<Modal opened={props.state} onClose={() => { props.method.close() }} centered>
 			<div className="login-modal">
 				<Box>
 					<form onSubmit={form.onSubmit((values) => console.log(values))}>

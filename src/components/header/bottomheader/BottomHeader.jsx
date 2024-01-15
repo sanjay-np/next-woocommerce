@@ -6,16 +6,17 @@ import CategoryMenu from '../menus/CategoryMenu';
 import { useDisclosure } from '@mantine/hooks';
 import LoginModal from '@/components/modals/LoginModal';
 
-export default function BottomHeader() {
+export default function BottomHeader(props) {
 	const [catMenuState, catMenuHandlers] = useDisclosure();
 	const [loginModalState, loginModalHandlers] = useDisclosure(false);
+	const { catMenuItems } = props
 	return (
 		<div className="bottom-header-wrapper">
 			<Container size={'lg'}>
 				<Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }} justify="space-between" align="center" >
 					<Grid.Col span={3}>
 						<div className="header-left">
-							<CategoryMenu state={catMenuState} method={catMenuHandlers} />
+							<CategoryMenu state={catMenuState} method={catMenuHandlers} items={catMenuItems} />
 						</div>
 					</Grid.Col>
 					<Grid.Col span={6}>

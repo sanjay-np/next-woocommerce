@@ -1,198 +1,207 @@
 import { fetchQuery } from "@/utils/fetchQuery"
 
-export async function fetchProducts(count, filterQuery = '') {
+export async function fetchProducts(first, after, where) {
 	const query = {
 		query: `{
-				products(first: ${count}, ${filterQuery}) {
-						edges {
-								node {
-										id
-										slug
-										sku
-										type
-										reviewCount
-										... on SimpleProduct {
-												id
-												title(format: RENDERED)
-												price(format: RAW)
-												regularPrice(format: RAW)
-												featuredImage {
-														node {
-																mediaItemUrl
-														}
-												}
-										}
-										... on VariableProduct {
-												id
-												title(format: RENDERED)
-												price(format: RAW)
-												featuredImage {
-														node {
-																mediaItemUrl
-														}
-												}
-										}
-								}
-						}
+			products(first: ${first}, after:"${after}",where:{ ${where} }) {
+				pageInfo {
+					endCursor
+					hasNextPage
+					total
 				}
+				edges {
+					node {
+						id
+						databaseId
+						name
+						slug
+						type
+						reviewCount
+						image {
+							mediaItemUrl
+						}
+						... on SimpleProduct {
+							price(format: RAW)
+							regularPrice(format: RAW)
+							soldIndividually
+						}
+						... on VariableProduct {
+							price(format: RAW)
+							regularPrice(format: RAW)
+							soldIndividually
+						}
+					}
+				}
+			}
 		}`
 	}
 	const response = await fetchQuery(query)
-	return response?.data?.products?.edges
+	return response?.data?.products
 }
 
 export async function fetchProduct(slug) {
 	const query = {
 		query: `{
-		product(id: "${slug}", idType: SLUG) {
+			product(id: "${slug}", idType: SLUG) {
 				id
-				content(format: RENDERED)
-				shortDescription
-				sku
+				databaseId
 				slug
-				title
+				name
 				type
+				description
+				shortDescription(format: RAW)
 				reviewCount
-				featuredImage {
-						node {
-							mediaItemUrl
-						}
+				image {
+					id
+					mediaItemUrl
 				}
-				galleryImages(first: 100) {
-						edges {
-								node {
-										id
-										mediaItemUrl
-								}
+				galleryImages {
+					nodes {
+						id
+						mediaItemUrl
+					}
+				}
+				productTags(first: 20) {
+					nodes {
+						id
+						slug
+						name
+					}
+				}
+				productCategories {
+					nodes {
+						name
+						slug
+						id
+						databaseId
+					}
+				}
+				attributes {
+					nodes {
+						id
+						attributeId
+						... on LocalProductAttribute {
+							name
+							label
+							options
+							variation
 						}
+						... on GlobalProductAttribute {
+							name
+							label
+							options
+							variation
+							slug
+							terms(first: 100) {
+								nodes {
+									id
+									name
+									slug
+								}
+							}
+						}
+					}
 				}
 				... on SimpleProduct {
-						id
-						name
-						price(format: RAW)
-						regularPrice(format: RAW)
-						productCategories {
-								edges {
-										node {
-												id
-												name
-												slug
-										}
-								}
+					onSale
+					stockStatus
+					price(format: RAW)
+					rawPrice: price(format: RAW)
+					regularPrice(format: RAW)
+					salePrice(format: RAW)
+					stockStatus
+					stockQuantity
+					soldIndividually
+					defaultAttributes(first: 100) {
+						nodes {
+							id
+							attributeId
+							name
+							value
+							label
 						}
+					}
 				}
 				... on VariableProduct {
-						id
-						name
-						price(format: RAW)
-						productCategories {
-								edges {
-										node {
-												id
-												name
-												slug
-										}
-								}
+					onSale
+					price(format: RAW)
+					rawPrice: price(format: RAW)
+					regularPrice
+					salePrice
+					stockStatus
+					stockQuantity
+					soldIndividually
+					defaultAttributes(first: 100) {
+						nodes {
+							id
+							attributeId
+							label
+							name
+							value
 						}
-						regularPrice(format: RAW)
-								attributes {
-										edges {
-												node {
-														name
-														label
-														options
-												}
-										}
+					}
+					variations(first: 50) {
+						nodes {
+							id
+							databaseId
+							name
+							price
+							rawPrice: price(format: RAW)
+							regularPrice
+							salePrice
+							onSale
+							attributes {
+								nodes {
+									name
+									label
+									value
 								}
-								variations {
-										nodes {
-												databaseId
-												name
-												price
-												sku
-												slug
-												featuredImage {
-														node {
-															mediaItemUrl
-														}
-												}
-												attributes {
-														nodes {
-															id
-															name
-															label
-															value
-														}
-												}
-										}
-								}
+							}
+							image {
+								id
+								sourceUrl
+								altText
+							}
 						}
+					}
 				}
+			}
 		}`
 	}
 	const response = await fetchQuery(query)
 	return response?.data?.product
 }
-
-export async function fetchProductsByCategory(slug) {
+export async function fetchProductCategories(first, after = '') {
 	const query = {
 		query: `{
-				productCategory(id: "${slug}", idType: SLUG) {
+			productCategories(first: ${first}, after: "${after}", where: {exclude: 15}) {
+				pageInfo {
+					hasNextPage
+					endCursor
+				}
+				edges {
+					node {
 						id
 						name
+						slug
+					}
 				}
-				products(where: {categoryIn: "${slug}"}) {
-						edges {
-								node {
-										id
-										slug
-										sku
-										type
-										reviewCount
-										... on SimpleProduct {
-												id
-												title(format: RENDERED)
-												price(format: RAW)
-												regularPrice(format: RAW)
-												featuredImage {
-														node {
-																mediaItemUrl
-														}
-												}
-										}
-										... on VariableProduct {
-												id
-												title(format: RENDERED)
-												price(format: RAW)
-												featuredImage {
-														node {
-																mediaItemUrl
-														}
-												}
-										}
-								}
-						}
-				}
+			}
 		}`
 	}
 	const response = await fetchQuery(query)
-	return response?.data
+	return response?.data?.productCategories
 }
-
-export async function fetchProductCategories() {
+export async function fetchProductCategory(slug) {
 	const query = {
 		query: `{
-				productCategories {
-						edges {
-								node {
-										id
-										name
-										slug
-								}
-						}
-				}
+			productCategory(id: "${slug}", idType: SLUG) {
+				id
+				name
+				slug
+			}
 		}`
 	}
 	const response = await fetchQuery(query)
-	return response?.data?.productCategories?.edges
+	return response?.data?.productCategory
 }

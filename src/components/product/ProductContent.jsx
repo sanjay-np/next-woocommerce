@@ -1,23 +1,25 @@
 'use client'
-import React from 'react'
-import { Box, Button, Flex, Grid, Group, Rating, Select, Tabs, TextInput } from '@mantine/core'
+import { Box, Button, Flex, Grid, Group, Pill, Rating, Select, Tabs, TextInput } from '@mantine/core'
 import { FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, ShuffleIcon, TwitterIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'
 import ProductAttributes from './ProductAttributes'
+import { useState } from 'react'
 export default function ProductContent(props) {
 	const { product } = props
+	console.log(product)
+	const [qty, setQty] = useState(1)
 	return (
 		<>
 			<div className="product-top-section">
 				<Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
 					<Grid.Col span={5}>
-						<ProductGallery gallery={product?.galleryImages.edges} featured={product?.featuredImage.node} />
+						<ProductGallery gallery={product?.galleryImages.nodes} featured={product?.image} />
 					</Grid.Col>
 					<Grid.Col span={7}>
 						<div className="product-details">
-							<h2 className="product-title">{product?.title}</h2>
+							<h2 className="product-title">{product?.name}</h2>
 							<div className="review-wrapper">
 								<Group>
 									<Rating defaultValue={product?.reviewCount} fractions={2} readOnly />
@@ -39,16 +41,16 @@ export default function ProductContent(props) {
 							<div className="product-content">
 								<div dangerouslySetInnerHTML={{ __html: product?.shortDescription }} />
 							</div>
-							{product?.type === 'VARIABLE' && (<ProductAttributes attributes={product?.attributes.edges} />)}
+							{product?.type === 'VARIABLE' && (<ProductAttributes attributes={product?.attributes.nodes} />)}
 							<div className="product-details-action">
 								<div className="details-action-col">
 									<div className="product-details-quantity">
 										<Box maw={120} className='qty-wrapper'>
 											<TextInput
 												placeholder="Your email"
-												leftSection={<PlusIcon color='#666' size={18} strokeWidth={1} onClick={() => { console.log('heh') }} />}
-												rightSection={<MinusIcon color='#666' size={18} strokeWidth={1} />}
-												value={'1'}
+												rightSection={<PlusIcon color='#666' size={18} strokeWidth={1} onClick={() => { setQty(qty + 1) }} />}
+												leftSection={<MinusIcon color='#666' size={18} strokeWidth={1} onClick={() => { qty > 1 && setQty(qty - 1) }} />}
+												value={qty}
 												readOnly
 											/>
 										</Box>
@@ -89,9 +91,13 @@ export default function ProductContent(props) {
 								<Flex justify={'space-between'} align={'center'}>
 									<div className="product-cat">
 										<span>Category:</span>
-										<a href="#">Women</a>,
-										<a href="#">Dresses</a>,
-										<a href="#">Yellow</a>
+										{product?.productCategories?.nodes.map((cat) => (
+											<Pill key={cat.id} size='md'>
+												<Link href={`/shop/${cat.slug}`} className="cat-link">
+													{cat.name}
+												</Link>
+											</Pill>
+										))}
 									</div>
 									<div className="social-icons">
 										<Flex justify={'flex-start'} align={'center'}>
@@ -128,7 +134,7 @@ export default function ProductContent(props) {
 								<div className="panel-content">
 									<div className="product-desc-content">
 										<h3>Product Information</h3>
-										<div dangerouslySetInnerHTML={{ __html: product?.content }} />
+										<div dangerouslySetInnerHTML={{ __html: product?.description }} />
 									</div>
 								</div>
 							</Tabs.Panel>

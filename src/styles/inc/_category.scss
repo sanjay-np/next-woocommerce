@@ -2,5 +2,28 @@
 	.page-content {
 		padding-top: var(--size-md);
 		margin-bottom: var(--size-xxxl);
+
+		.toolbox {
+			margin-bottom: var(--size-xl);
+
+			.toolbox-left {
+				.toolbox-info {
+					color: var(--text-light);
+					font-weight: 400;
+
+					span {
+						color: var(--text-dark);
+						font-weight: 400;
+					}
+				}
+			}
+
+			.toolbox-right {
+				select {
+					font-family: var(--font-family);
+					color: var(--text-light);
+				}
+			}
+		}
 	}
 }
