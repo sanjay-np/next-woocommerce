@@ -1,15 +1,19 @@
-import React from 'react'
-import { Container, Flex, Grid, UnstyledButton } from '@mantine/core';
+import React, { useState } from 'react'
+import { Container, Flex, Grid, Group, Switch, UnstyledButton } from '@mantine/core';
 import { User2Icon } from 'lucide-react'
 import { Link } from 'nextjs13-progress';
 import CategoryMenu from '../menus/CategoryMenu';
 import { useDisclosure } from '@mantine/hooks';
 import LoginModal from '@/components/modals/LoginModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTheme } from '@/store/reducers/themeSelectorSlice';
 
 export default function BottomHeader(props) {
 	const [catMenuState, catMenuHandlers] = useDisclosure();
 	const [loginModalState, loginModalHandlers] = useDisclosure(false);
 	const { catMenuItems } = props
+	const theme = useSelector((state) => state.themeSelectorSlice.theme)
+	const dispatch = useDispatch()
 	return (
 		<div className="bottom-header-wrapper">
 			<Container size={'lg'}>
@@ -33,10 +37,18 @@ export default function BottomHeader(props) {
 					</Grid.Col>
 					<Grid.Col span={3}>
 						<div className="header-right">
-							<Flex gap={{ base: 'sm', sm: 'sm' }} justify={'flex-end'} align={'center'}>
-								<User2Icon size={18} />
-								<UnstyledButton onClick={() => { loginModalHandlers.open() }}>Login/Register</UnstyledButton>
-							</Flex>
+							<Group justify='flex-end'>
+								<Flex gap={{ base: 'sm', sm: 'sm' }} justify={'flex-end'} align={'center'}>
+									<User2Icon size={18} />
+									<UnstyledButton onClick={() => { loginModalHandlers.open() }}>Login/Register</UnstyledButton>
+								</Flex>
+								<Switch
+									checked={theme === 'light' ? false : true}
+									onLabel="light"
+									offLabel="dark"
+									onChange={() => dispatch(setTheme(theme === 'light' ? 'dark' : 'light'))}
+								/>
+							</Group>
 						</div>
 					</Grid.Col>
 				</Grid>
