@@ -205,3 +205,35 @@ export async function fetchProductCategory(slug) {
 	const response = await fetchQuery(query)
 	return response?.data?.productCategory
 }
+
+export async function fetchProductColors() {
+	const query = {
+		query: `{
+			allPaColor{
+				nodes {
+					databaseId
+					name
+					slug
+				}
+			}
+		}`
+	}
+	const response = await fetchQuery(query)
+	return response?.data?.allPaColor?.nodes
+}
+
+export async function fetchProductSizes() {
+	const query = {
+		query: `{
+			allPaSize {
+				nodes {
+					id
+					name
+					slug
+				}
+			}
+		}`
+	}
+	const response = await fetchQuery(query)
+	return response?.data?.allPaSize?.nodes
+}   

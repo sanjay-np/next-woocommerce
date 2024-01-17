@@ -93,7 +93,7 @@ export default function ProductContent(props) {
 										<span>Category:</span>
 										{product?.productCategories?.nodes.map((cat) => (
 											<Pill key={cat.id} size='md'>
-												<Link href={`/shop/${cat.slug}`} className="cat-link">
+												<Link href={`/product/category/${cat.slug}`} className="cat-link">
 													{cat.name}
 												</Link>
 											</Pill>

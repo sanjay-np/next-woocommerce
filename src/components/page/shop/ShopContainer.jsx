@@ -1,10 +1,10 @@
 'use client'
 import ProductCard from '@/components/product/ProductCard'
 import { Accordion, Checkbox, ColorSwatch, Flex, Grid, Group, NativeSelect, Pagination, RangeSlider, SimpleGrid } from '@mantine/core'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 export default function ShopContainer(props) {
-	const { productsInfo, categories } = props
+	const { productsInfo, categories, colors, sizes } = props
 	const [priceRange, setPriceRange] = useState([0, 1000])
 	return (
 		<>
@@ -46,73 +46,59 @@ export default function ShopContainer(props) {
 									/>
 								</Accordion.Panel>
 							</Accordion.Item>
-							<Accordion.Item value="category" className='widget category-filter'>
-								<Accordion.Control className='widget-title'>Category</Accordion.Control>
-								<Accordion.Panel>
-									<ul>
-										{categories?.map((item, index) => (
-											<div key={item?.node.id} className='category-filter-item'>
-												<Checkbox
-													label={`${item?.node.name}`}
-													color='#C96'
-												/>
-											</div>
-										))}
-									</ul>
-								</Accordion.Panel>
-							</Accordion.Item>
-							<Accordion.Item value="color" className='widget color-filter'>
-								<Accordion.Control className='widget-title'>Color</Accordion.Control>
-								<Accordion.Panel>
-									<Group gap={5}>
-										<ColorSwatch color='green' />
-										<ColorSwatch color='blue' />
-										<ColorSwatch color='red' />
-										<ColorSwatch color='yellow' />
-									</Group>
-								</Accordion.Panel>
-							</Accordion.Item>
-							<Accordion.Item value="size" className='widget size-filter'>
-								<Accordion.Control className='widget-title'>Size</Accordion.Control>
-								<Accordion.Panel>
-									<div className="size-filter-item">
-										<Checkbox
-											label={`XS`}
-											color='#C96'
-										/>
-									</div>
-									<div className="size-filter-item">
-										<Checkbox
-											label={`S`}
-											color='#C96'
-										/>
-									</div>
-									<div className="size-filter-item">
-										<Checkbox
-											label={`M`}
-											color='#C96'
-										/>
-									</div>
-									<div className="size-filter-item">
-										<Checkbox
-											label={`L`}
-											color='#C96'
-										/>
-									</div>
-									<div className="size-filter-item">
-										<Checkbox
-											label={`XL`}
-											color='#C96'
-										/>
-									</div>
-									<div className="size-filter-item">
-										<Checkbox
-											label={`XXL`}
-											color='#C96'
-										/>
-									</div>
-								</Accordion.Panel>
-							</Accordion.Item>
+							{
+								categories && (
+									<Accordion.Item value="category" className='widget category-filter'>
+										<Accordion.Control className='widget-title'>Category</Accordion.Control>
+										<Accordion.Panel>
+											<ul>
+												{categories?.map((item, index) => (
+													<div key={item?.node.id} className='category-filter-item'>
+														<Checkbox
+															label={`${item?.node.name}`}
+															color='#C96'
+														/>
+													</div>
+												))}
+											</ul>
+										</Accordion.Panel>
+									</Accordion.Item>
+								)
+							}
+
+							{
+								colors && (
+									<Accordion.Item value="color" className='widget color-filter'>
+										<Accordion.Control className='widget-title'>Color</Accordion.Control>
+										<Accordion.Panel>
+											<Group gap={5}>
+												{colors?.map((item, index) => (
+													<React.Fragment key={index}>
+														<ColorSwatch color={item.slug} />
+													</React.Fragment>
+												))}
+											</Group>
+										</Accordion.Panel>
+									</Accordion.Item>
+								)
+							}
+							{
+								sizes && (
+									<Accordion.Item value="size" className='widget size-filter'>
+										<Accordion.Control className='widget-title'>Size</Accordion.Control>
+										<Accordion.Panel>
+											{sizes?.map((item, index) => (
+												<div className="size-filter-item" key={index}>
+													<Checkbox
+														label={`${item.name}`}
+														color='#C96'
+													/>
+												</div>
+											))}
+										</Accordion.Panel>
+									</Accordion.Item>
+								)
+							}
 						</Accordion>
 					</div>
 				</Grid.Col>
