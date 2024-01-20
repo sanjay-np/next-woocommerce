@@ -2,6 +2,7 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 export default function HeroSlider(props) {
 	const { items } = props
@@ -32,7 +33,7 @@ export default function HeroSlider(props) {
 			>
 				{items.map((item, index) => (
 					<div className="slider-item" key={index}>
-						<img src={item?.bannerImage.mediaItemUrl} />
+						<Image src={item?.bannerImage.mediaItemUrl} width={0} height={0} sizes="100vw" alt="Hero Image" style={{ width: '100%', height: '100%' }} />
 					</div>
 				))}
 			</Carousel>

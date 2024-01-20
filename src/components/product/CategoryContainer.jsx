@@ -5,6 +5,7 @@ import React from 'react'
 
 export default function CategoryContainer(props) {
 	const { productsInfo } = props
+	const products = productsInfo?.nodes
 	return (
 		<>
 			<Grid>
@@ -18,7 +19,7 @@ export default function CategoryContainer(props) {
 						<Flex justify={'space-between'} align={'center'}>
 							<div className="toolbox-left">
 								<div className="toolbox-info">
-									Showing <span>{productsInfo?.edges.length} of {productsInfo?.pageInfo?.total}</span> Products
+									Showing <span>{products?.length} of {products?.pageInfo?.total}</span> Products
 								</div>
 							</div>
 							<div className="toolbox-right">
@@ -34,8 +35,8 @@ export default function CategoryContainer(props) {
 						</Flex>
 					</div>
 					<SimpleGrid cols={3}>
-						{productsInfo?.edges?.map((item, index) => (
-							<ProductCard item={item?.node} key={item?.node.id} />
+						{products?.map((item, index) => (
+							<ProductCard item={item} key={item?.id} />
 						))}
 					</SimpleGrid>
 				</Grid.Col>

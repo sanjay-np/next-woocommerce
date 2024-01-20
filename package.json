@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-responsive-carousel": "^3.2.23",
-    "sass": "^1.69.6"
+    "sass": "^1.69.6",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "eslint": "^8",

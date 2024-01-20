@@ -1,137 +1,58 @@
 'use client'
+import React from 'react'
 import ProductCard from '@/components/product/ProductCard'
-import { Accordion, Checkbox, ColorSwatch, Flex, Grid, Group, NativeSelect, Pagination, RangeSlider, SimpleGrid } from '@mantine/core'
-import React, { useState } from 'react'
+import { Box, Flex, Grid, Group, LoadingOverlay, NativeSelect, Pagination, SimpleGrid } from '@mantine/core'
+import ShopSidebar from './sidebar/ShopSidebar'
+import { useGetProductsQuery } from '@/store/reducers/ProductsSlice'
 
 export default function ShopContainer(props) {
-	const { productsInfo, categories, colors, sizes } = props
-	const [priceRange, setPriceRange] = useState([0, 1000])
+	const { categories, colors, sizes } = props
+	const { data, error, isLoading } = useGetProductsQuery()
 	return (
-		<>
+		<React.Fragment>
 			<Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
 				<Grid.Col span={3}>
-					<div className='shop-sidebar'>
-						<div className="widget widget-clean">
-							<label>Filters:</label>
-							<a href="#" className="sidebar-filter-clear">Clear</a>
-						</div>
-						<Accordion variant="default" multiple defaultValue={['price', 'category', 'color', 'size']}>
-							<Accordion.Item value="price" className='widget price-filter'>
-								<Accordion.Control className='widget-title'>Price</Accordion.Control>
-								<Accordion.Panel>
-									<div className="filter-price-text">
-										Price Range:
-										<span className="filter-price-range">${priceRange[0]} - ${priceRange[1]}</span>
-									</div>
-									<RangeSlider
-										color='#C96'
-										label={null}
-										marks={[
-											{ value: 0, label: '$0' },
-											{ value: 1000, label: '$1000' },
-										]}
-										mt="xl"
-										mb="xl"
-										ml="xs"
-										mr="xs"
-										showLabelOnHover={false}
-										size="xs"
-										thumbSize={15}
-										onChange={setPriceRange}
-										min={0}
-										max={1000}
-										step={1}
-										defaultValue={priceRange}
-										minRange={1}
-									/>
-								</Accordion.Panel>
-							</Accordion.Item>
-							{
-								categories && (
-									<Accordion.Item value="category" className='widget category-filter'>
-										<Accordion.Control className='widget-title'>Category</Accordion.Control>
-										<Accordion.Panel>
-											<ul>
-												{categories?.map((item, index) => (
-													<div key={item?.node.id} className='category-filter-item'>
-														<Checkbox
-															label={`${item?.node.name}`}
-															color='#C96'
-														/>
-													</div>
-												))}
-											</ul>
-										</Accordion.Panel>
-									</Accordion.Item>
-								)
-							}
-
-							{
-								colors && (
-									<Accordion.Item value="color" className='widget color-filter'>
-										<Accordion.Control className='widget-title'>Color</Accordion.Control>
-										<Accordion.Panel>
-											<Group gap={5}>
-												{colors?.map((item, index) => (
-													<React.Fragment key={index}>
-														<ColorSwatch color={item.slug} />
-													</React.Fragment>
-												))}
-											</Group>
-										</Accordion.Panel>
-									</Accordion.Item>
-								)
-							}
-							{
-								sizes && (
-									<Accordion.Item value="size" className='widget size-filter'>
-										<Accordion.Control className='widget-title'>Size</Accordion.Control>
-										<Accordion.Panel>
-											{sizes?.map((item, index) => (
-												<div className="size-filter-item" key={index}>
-													<Checkbox
-														label={`${item.name}`}
-														color='#C96'
-													/>
-												</div>
-											))}
-										</Accordion.Panel>
-									</Accordion.Item>
-								)
-							}
-						</Accordion>
-					</div>
+					<ShopSidebar categories={categories} colors={colors} sizes={sizes} />
 				</Grid.Col>
 				<Grid.Col span={9}>
-					<div className="toolbox">
-						<Flex justify={'space-between'} align={'center'}>
-							<div className="toolbox-left">
-								<div className="toolbox-info">
-									Showing <span>{productsInfo?.edges.length} of {productsInfo?.pageInfo?.total}</span> Products
-								</div>
-							</div>
-							<div className="toolbox-right">
-								<div className="toolbox-sort">
-									<Group>
-										<label>Sort by:</label>
-										<NativeSelect
-											data={['Most Popular', 'Most Rated', 'Date']}
-										/>
-									</Group>
-								</div>
-							</div>
-						</Flex>
-					</div>
-					<SimpleGrid cols={3}>
-						{productsInfo?.edges?.map((item, index) => (
-							<ProductCard item={item?.node} key={item?.node.id} />
-						))}
-					</SimpleGrid>
-					<div className="pagination-wrapper">
-						<Pagination total={6} defaultValue={1} color='#C96' />
-					</div>
+					<Box pos={'relative'} style={{ minHeight: '100vh' }}>
+						<LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 1 }} loaderProps={{ color: '#C96', type: 'bars' }} />
+						{
+							data !== undefined && (
+								<React.Fragment>
+									<div className="toolbox">
+										<Flex justify={'space-between'} align={'center'}>
+											<div className="toolbox-left">
+												<div className="toolbox-info">
+													Showing <span>{data?.data?.products?.nodes.length} of {data?.data?.products?.pageInfo?.total}</span> Products
+												</div>
+											</div>
+											<div className="toolbox-right">
+												<div className="toolbox-sort">
+													<Group>
+														<label>Sort by:</label>
+														<NativeSelect
+															data={['Most Popular', 'Most Rated', 'Date']}
+														/>
+													</Group>
+												</div>
+											</div>
+										</Flex>
+									</div>
+									<SimpleGrid cols={3}>
+										{data?.data?.products?.nodes?.map((item, index) => (
+											<ProductCard item={item} key={item?.id} />
+										))}
+									</SimpleGrid>
+									<div className="pagination-wrapper">
+										<Pagination total={6} defaultValue={1} color='#C96' />
+									</div>
+								</React.Fragment>
+							)
+						}
+					</Box>
 				</Grid.Col>
 			</Grid>
-		</>
+		</React.Fragment>
 	)
 }

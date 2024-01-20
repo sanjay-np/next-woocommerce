@@ -21,7 +21,7 @@ export default function Recomended(props) {
 				<div className="products">
 					<SimpleGrid cols={4}>
 						{products?.map((item, index) => (
-							<ProductCard item={item?.node} key={item?.node.id} />
+							<ProductCard item={item} key={index} />
 						))}
 					</SimpleGrid>
 				</div>

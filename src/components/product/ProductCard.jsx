@@ -3,6 +3,7 @@ import { Button, Rating } from '@mantine/core';
 import { Heart, ScanSearch, ShoppingCart } from 'lucide-react';
 import { Link } from 'nextjs13-progress';
 import { productPrice } from '@/utils/priceUtil';
+import Image from 'next/image';
 
 export default function ProductCard(props) {
 	const { item } = props
@@ -10,7 +11,8 @@ export default function ProductCard(props) {
 		<div className="product-card">
 			<figure className="product-media">
 				<Link href={`/product/${item?.slug}`}>
-					<img src={item?.image.mediaItemUrl} alt="Product image" className="product-image" />
+					<Image
+						src={item?.image.mediaItemUrl} alt="Product image" className="product-image" width={0} height={0} sizes="100vw" />
 				</Link>
 				<div className="product-action-vertical">
 					<a href="#" className="btn-product-icon btn-wishlist btn-expandable">

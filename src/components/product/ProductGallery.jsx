@@ -38,7 +38,7 @@ export default function ProductGallery(props) {
 			>
 				{images.map((item, index) => (
 					<div className="gallery-item" key={index}>
-						<img src={item} />
+						<img src={item} alt='Product Image' />
 					</div>
 				))}
 			</Carousel>

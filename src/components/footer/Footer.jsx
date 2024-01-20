@@ -1,5 +1,6 @@
 'use client'
 import { Container, Flex, Grid } from '@mantine/core'
+import Image from 'next/image'
 import React from 'react'
 
 export default function Footer() {
@@ -15,7 +16,7 @@ export default function Footer() {
 					<Grid>
 						<Grid.Col span={3}>
 							<div className="widget widget-about">
-								<img src="/assets/images/logo-footer.png" className="footer-logo" alt="Footer Logo" width="105" height="25" />
+								<Image src="/assets/images/logo-footer.png" className="footer-logo" alt="Footer Logo" width="105" height="25" />
 								<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 							</div>
 						</Grid.Col>
@@ -65,7 +66,7 @@ export default function Footer() {
 					<Flex justify={'space-between'} align={'center'}>
 						<p className="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
 						<figure className="footer-payments">
-							<img src="/assets/images/payments.png" alt="Payment methods" width="272" height="20" />
+							<Image src="/assets/images/payments.png" alt="Payment methods" width="272" height="20" />
 						</figure>
 					</Flex>
 				</Container>

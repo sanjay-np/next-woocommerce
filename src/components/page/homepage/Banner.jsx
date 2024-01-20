@@ -1,6 +1,7 @@
 'use client'
 import { Container, Grid } from '@mantine/core'
 import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import React from 'react'
 
 export default function Banner() {
@@ -12,7 +13,7 @@ export default function Banner() {
 						<div className="banner-item">
 							<div className="banner-overlay">
 								<a href="#" className="banner-image">
-									<img src="/assets/images/banners/banner-1.jpg" />
+									<Image src="/assets/images/banners/banner-1.jpg" width={0} height={0} sizes="100vw" alt="Hero Image" style={{ width: '100%', height: '100%' }} />
 								</a>
 								<div className="banner-content">
 									<h4 className="banner-subtitle">
@@ -34,7 +35,7 @@ export default function Banner() {
 						<div className="banner-item">
 							<div className="banner-overlay">
 								<a href="#" className="banner-image">
-									<img src="/assets/images/banners/banner-2.jpg" />
+									<Image src="/assets/images/banners/banner-2.jpg" width={0} height={0} sizes="100vw" alt="Hero Image" style={{ width: '100%', height: '100%' }} />
 								</a>
 								<div className="banner-content">
 									<h4 className="banner-subtitle">
@@ -56,7 +57,7 @@ export default function Banner() {
 						<div className="banner-item">
 							<div className="banner-overlay">
 								<a href="#" className="banner-image">
-									<img src="/assets/images/banners/banner-3.jpg" />
+									<Image src="/assets/images/banners/banner-3.jpg" width={0} height={0} sizes="100vw" alt="Hero Image" style={{ width: '100%', height: '100%' }} />
 								</a>
 								<div className="banner-content">
 									<h4 className="banner-subtitle">

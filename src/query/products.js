@@ -1,6 +1,6 @@
 import { fetchQuery } from "@/utils/fetchQuery"
 
-export async function fetchProducts(first, after, where) {
+export async function fetchProducts(first, after, where = '') {
 	const query = {
 		query: `{
 			products(first: ${first}, after:"${after}",where:{ ${where} }) {
@@ -9,27 +9,25 @@ export async function fetchProducts(first, after, where) {
 					hasNextPage
 					total
 				}
-				edges {
-					node {
-						id
-						databaseId
-						name
-						slug
-						type
-						reviewCount
-						image {
-							mediaItemUrl
-						}
-						... on SimpleProduct {
-							price(format: RAW)
-							regularPrice(format: RAW)
-							soldIndividually
-						}
-						... on VariableProduct {
-							price(format: RAW)
-							regularPrice(format: RAW)
-							soldIndividually
-						}
+				nodes{
+					id
+					databaseId
+					name
+					slug
+					type
+					reviewCount
+					image {
+						mediaItemUrl
+					}
+					... on SimpleProduct {
+						price(format: RAW)
+						regularPrice(format: RAW)
+						soldIndividually
+					}
+					... on VariableProduct {
+						price(format: RAW)
+						regularPrice(format: RAW)
+						soldIndividually
 					}
 				}
 			}
@@ -179,12 +177,10 @@ export async function fetchProductCategories(first, after = '') {
 					hasNextPage
 					endCursor
 				}
-				edges {
-					node {
-						id
-						name
-						slug
-					}
+				nodes {
+					id
+					name
+					slug
 				}
 			}
 		}`

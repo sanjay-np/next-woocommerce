@@ -26,7 +26,7 @@ export default function Trending(props) {
 							<div className="products">
 								<SimpleGrid cols={4}>
 									{trendingProducts?.map((item, index) => (
-										<ProductCard item={item?.node} key={item?.node.id} />
+										<ProductCard item={item} key={item?.id} />
 									))}
 								</SimpleGrid>
 							</div>
@@ -35,7 +35,7 @@ export default function Trending(props) {
 							<div className="products">
 								<SimpleGrid cols={4}>
 									{trendingProducts?.map((item, index) => (
-										<ProductCard item={item?.node} key={item?.node.id} />
+										<ProductCard item={item} key={item?.id} />
 									))}
 								</SimpleGrid>
 							</div>
@@ -44,7 +44,7 @@ export default function Trending(props) {
 							<div className="products">
 								<SimpleGrid cols={4}>
 									{onSaleProducts?.map((item, index) => (
-										<ProductCard item={item?.node} key={item?.node.id} />
+										<ProductCard item={item} key={item?.id} />
 									))}
 								</SimpleGrid>
 							</div>

@@ -34,10 +34,10 @@ export default async function Page() {
 					<Banner />
 				</div>
 				<div className="trending-section">
-					<Trending trendingProducts={trendingProducts?.edges} onSaleProducts={onSaleProducts?.edges} />
+					<Trending trendingProducts={trendingProducts?.nodes} onSaleProducts={onSaleProducts?.nodes} />
 				</div>
 				<div className="recommended-section">
-					<Recomended products={recommendedProducts?.edges} />
+					<Recomended products={recommendedProducts?.nodes} />
 				</div>
 				<div className="icon-box-section">
 					<IconBox />

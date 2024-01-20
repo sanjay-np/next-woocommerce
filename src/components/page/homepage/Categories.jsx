@@ -1,4 +1,5 @@
 import { Container, SimpleGrid } from '@mantine/core'
+import Image from 'next/image'
 import { Link } from 'nextjs13-progress'
 import React from 'react'
 
@@ -17,7 +18,7 @@ export default function Categories(props) {
 								<Link href={`/product/category/${item?.slug}`}>
 									<figure>
 										<span>
-											<img src={item?.image.mediaItemUrl} />
+											<Image width={0} height={0} sizes="100vw" src={item?.image.mediaItemUrl} alt='Category Image' style={{ width: '100%', height: '100%' }} />
 										</span>
 									</figure>
 									<h3>{item.name}</h3>

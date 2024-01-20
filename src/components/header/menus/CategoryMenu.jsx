@@ -14,10 +14,10 @@ export default function CategoryMenu(props) {
 			</Menu.Target>
 			<Menu.Dropdown>
 				<Menu.Label>Popular Categories</Menu.Label>
-				{items?.edges?.map((item, index) => (
+				{items?.nodes?.map((item, index) => (
 					<Menu.Item key={index}>
-						<Link href={`/product/category/${item?.node.slug}`}>
-							{item?.node.name}
+						<Link href={`/product/category/${item?.slug}`}>
+							{item?.name}
 						</Link>
 					</Menu.Item>
 				))}

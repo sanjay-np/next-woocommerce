@@ -1,6 +1,7 @@
 import React from 'react'
 import { HoverCard, Group, Stack, CloseIcon, Button } from '@mantine/core';
 import { ArrowRight, ShoppingBasketIcon } from 'lucide-react';
+import Image from 'next/image';
 
 export default function MiniCart() {
 	const products = [
@@ -43,7 +44,7 @@ export default function MiniCart() {
 										<Group gap="xs" grow preventGrowOverflow={false} wrap="nowrap">
 											<figure className="image-wrapper">
 												<a href="#" className="product-image">
-													<img src={product.image} />
+													<Image src={product.image} width={0} height={0} sizes="100vw" alt="Cart Item" style={{ width: '100%', height: '100%' }} />
 												</a>
 											</figure>
 											<Stack gap={5}>
