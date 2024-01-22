@@ -3,7 +3,7 @@ import React from 'react'
 import ProductCard from '@/components/product/ProductCard'
 import { Box, Flex, Grid, Group, LoadingOverlay, NativeSelect, Pagination, SimpleGrid } from '@mantine/core'
 import ShopSidebar from './sidebar/ShopSidebar'
-import { useGetProductsQuery } from '@/store/reducers/ProductsSlice'
+import { useGetProductsQuery } from '@/store/reducers/productsSlice'
 
 export default function ShopContainer(props) {
 	const { categories, colors, sizes } = props
