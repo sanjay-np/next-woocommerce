@@ -1,6 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-const API_URL = process.env.API_URL
-
 
 export const productsApi = createApi({
     reducerPath: "productsApi",
@@ -8,42 +6,45 @@ export const productsApi = createApi({
     tagTypes: ["Product"],
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: () => ({
-                url: "https://cgs.sanjay-chaudhary.com.np/graphql",
-                method: "POST",
-                body: {
-                    query: `{
-                        products {
-                            pageInfo {
-                                endCursor
-                                hasNextPage
-                                total
+            query: ({ first, after, where }) => {
+                console.log(first, after, where)
+                return {
+                    url: "https://cgs.sanjay-chaudhary.com.np/graphql",
+                    method: "POST",
+                    body: {
+                        query: `{
+                            products(first: ${first}, after:"${after}",where:{ ${where} }){
+                                pageInfo {
+                                    endCursor
+                                    hasNextPage
+                                    total
+                                }
+                                nodes{
+                                    id
+                                    databaseId
+                                    name
+                                    slug
+                                    type
+                                    reviewCount
+                                    image {
+                                        mediaItemUrl
+                                    }
+                                    ... on SimpleProduct {
+                                        price(format: RAW)
+                                        regularPrice(format: RAW)
+                                        soldIndividually
+                                    }
+                                    ... on VariableProduct {
+                                        price(format: RAW)
+                                        regularPrice(format: RAW)
+                                        soldIndividually
+                                    }
+                                }
                             }
-                            nodes{
-                                id
-                                databaseId
-                                name
-                                slug
-                                type
-                                reviewCount
-                                image {
-                                    mediaItemUrl
-                                }
-                                ... on SimpleProduct {
-                                    price(format: RAW)
-                                    regularPrice(format: RAW)
-                                    soldIndividually
-                                }
-                                ... on VariableProduct {
-                                    price(format: RAW)
-                                    regularPrice(format: RAW)
-                                    soldIndividually
-                                }
-                            }
-                        }
-                    }`
+                        }`
+                    }
                 }
-            }),
+            },
             providesTags: ["Product"]
         })
     })

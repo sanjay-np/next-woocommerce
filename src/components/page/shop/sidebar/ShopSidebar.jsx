@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
-import { Accordion, Checkbox, Chip, ColorSwatch, Group, RangeSlider, UnstyledButton } from '@mantine/core'
+import { Accordion, Checkbox, ColorSwatch, Group, RangeSlider, UnstyledButton } from '@mantine/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateCategoryFilter, updateColorFilter, updatePriceRangeFilter, updateSizeFilter } from '@/store/reducers/shopFilterSlice'
 
 export default function ShopSidebar(props) {
-
     const filter = useSelector((state) => state.shopFilterSlice)
-
     const dispatch = useDispatch()
     const { categories, colors, sizes } = props
-    const [priceRange, setPriceRange] = useState([0, 1000])
-
+    const [priceRange, setPriceRange] = useState([0, 100])
 
     const handleFilterChange = (type, value) => {
+        props.onFilterChangeMethod(true)
         if (type === 'price') {
             dispatch(updatePriceRangeFilter(value))
         }
@@ -44,7 +42,7 @@ export default function ShopSidebar(props) {
     }
     const handleRemoveFilter = () => {
         dispatch(updatePriceRangeFilter(null))
-        setPriceRange([0, 1000])
+        setPriceRange([0, 100])
         dispatch(updateCategoryFilter([]))
         dispatch(updateSizeFilter([]))
     }
@@ -67,7 +65,7 @@ export default function ShopSidebar(props) {
                         <RangeSlider
                             color='#C96'
                             label={null}
-                            marks={[{ value: 0, label: '$0' }, { value: 1000, label: '$1000' },]}
+                            marks={[{ value: 0, label: '$0' }, { value: 1000, label: '$100' },]}
                             mt="xl"
                             mb="xl"
                             ml="xs"
@@ -77,7 +75,7 @@ export default function ShopSidebar(props) {
                             thumbSize={15}
                             onChange={setPriceRange}
                             min={0}
-                            max={1000}
+                            max={100}
                             step={1}
                             defaultValue={priceRange}
                             minRange={1}
@@ -107,7 +105,7 @@ export default function ShopSidebar(props) {
                     </Accordion.Item>
                 )}
                 {/* Color Filter */}
-                {/* {colors && (
+                {colors && (
                     <Accordion.Item value="color" className='widget color-filter'>
                         <Accordion.Control className='widget-title'>Color</Accordion.Control>
                         <Accordion.Panel>
@@ -116,16 +114,13 @@ export default function ShopSidebar(props) {
                                     <React.Fragment key={index}>
                                         <ColorSwatch
                                             color={item.slug}
-                                            component="button"
-                                            style={{ color: '#fff', cursor: 'pointer' }}
                                         />
-
                                     </React.Fragment>
                                 ))}
                             </Group>
                         </Accordion.Panel>
                     </Accordion.Item>
-                )} */}
+                )}
 
                 {sizes && (
                     <Accordion.Item value="size" className='widget size-filter'>
