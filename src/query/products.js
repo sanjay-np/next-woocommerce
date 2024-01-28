@@ -172,7 +172,7 @@ export async function fetchProduct(slug) {
 export async function fetchProductCategories(first, after = '') {
 	const query = {
 		query: `{
-			productCategories(first: ${first}, after: "${after}", where: {exclude: 15}) {
+			productCategories(first: ${first}, after: "${after}", where: {exclude: 15, childless: true}) {
 				pageInfo {
 					hasNextPage
 					endCursor

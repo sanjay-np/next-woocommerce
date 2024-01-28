@@ -8,7 +8,6 @@ import ProductAttributes from './ProductAttributes'
 import { useState } from 'react'
 export default function ProductContent(props) {
 	const { product } = props
-	console.log(product)
 	const [qty, setQty] = useState(1)
 	return (
 		<>

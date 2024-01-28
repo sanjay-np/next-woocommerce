@@ -1,10 +1,11 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import ProductCard from '@/components/product/ProductCard'
-import { Box, Flex, Grid, Group, LoadingOverlay, NativeSelect, Pagination, SimpleGrid } from '@mantine/core'
+import { Box, Flex, Grid, Group, Loader, LoadingOverlay, NativeSelect, Pagination, SimpleGrid, Text } from '@mantine/core'
 import ShopSidebar from './sidebar/ShopSidebar'
 import { useSelector } from 'react-redux'
 import { useGetProductsQuery } from '@/store/reducers/productsSlice'
+import { useInView } from 'react-intersection-observer'
 
 export default function ShopContainer(props) {
 
@@ -14,15 +15,18 @@ export default function ShopContainer(props) {
 	const [loading, setLoading] = useState(true)
 	const [canRunQuery, setCanRunQuery] = useState(false)
 	const [filterQuery, setFilterQuery] = useState('')
+	const [after, setAfter] = useState(productsInfo?.pageInfo?.endCursor)
+	const [hasNextPage, setHasNextPage] = useState(productsInfo?.pageInfo?.hasNextPage)
+	const { ref, inView } = useInView()
 
-	const { data, error, isLoading, refetch } = useGetProductsQuery({ first: 10, after: '', where: filterQuery });
+	const { refetch } = useGetProductsQuery({ first: 12, after: after, where: filterQuery });
 
 	const fetchFilteredProducts = async () => {
 		try {
+			setAfter('')
 			filterQueryBuilder()
 			setLoading(true)
 			const res = await refetch();
-			console.log(res)
 			setProducts(res?.data?.data.products.nodes)
 			setLoading(false)
 		} catch (error) {
@@ -67,8 +71,25 @@ export default function ShopContainer(props) {
 	}, [filter]);
 
 	useEffect(() => {
-		fetchFilteredProducts()
+		if (canRunQuery) {
+			fetchFilteredProducts()
+		}
 	}, [filterQuery])
+
+	const loadMoreProducts = async () => {
+		const res = await refetch();
+		const responseProducts = res?.data?.data.products.nodes
+		setProducts([...products, ...responseProducts])
+		setAfter(res?.data?.data?.products.pageInfo?.endCursor)
+		setHasNextPage(res?.data?.data?.products.pageInfo?.hasNextPage)
+	}
+
+
+	useEffect(() => {
+		if (inView) {
+			loadMoreProducts()
+		}
+	}, [inView])
 
 	return (
 		<React.Fragment>
@@ -83,13 +104,13 @@ export default function ShopContainer(props) {
 				</Grid.Col>
 				<Grid.Col span={9}>
 					<Box pos={'relative'} style={{ minHeight: '100vh' }}>
-						<LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 10 }} loaderProps={{ color: '#C96', type: 'bars' }} />
+						<LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 1 }} loaderProps={{ color: '#C96', type: 'bars' }} />
 						<React.Fragment>
 							<div className="toolbox">
 								<Flex justify={'space-between'} align={'center'}>
 									<div className="toolbox-left">
 										<div className="toolbox-info">
-											Showing <span>{productsInfo?.nodes.length} of {productsInfo?.pageInfo?.total}</span> Products
+											{/* Showing <span>{productsInfo?.nodes.length} of {productsInfo?.pageInfo?.total}</span> Products */}
 										</div>
 									</div>
 									<div className="toolbox-right">
@@ -108,12 +129,25 @@ export default function ShopContainer(props) {
 								{products?.map((item, index) => (
 									<ProductCard item={item} key={item?.id} />
 								))}
-								{/* TODO: Show no products message */}
+
 							</SimpleGrid>
-							<div className="pagination-wrapper">
-								<Pagination total={2} defaultValue={1} color='#C96' />
-								{/* TODO: Fix the pagination */}
-							</div>
+							{
+								products?.length === 0 && (
+									<Text size="xl" fw={400} ta="center" c={'#c96'} style={{ marginTop: '20px' }}>
+										No products match the selected filter. Please try different criteria.
+									</Text>
+								)
+							}
+							{
+								hasNextPage && (
+									<div ref={ref}>
+										<Flex justify={'center'} style={{ marginTop: '20px' }}>
+											<Loader size={30} color='#C96' type="bars" />
+										</Flex>
+									</div>
+								)
+							}
+
 						</React.Fragment>
 					</Box>
 				</Grid.Col>

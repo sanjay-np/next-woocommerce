@@ -19,7 +19,7 @@ export default function CategoryContainer(props) {
 						<Flex justify={'space-between'} align={'center'}>
 							<div className="toolbox-left">
 								<div className="toolbox-info">
-									Showing <span>{products?.length} of {products?.pageInfo?.total}</span> Products
+									Showing <span>{products?.length} of {productsInfo?.pageInfo?.total}</span> Products
 								</div>
 							</div>
 							<div className="toolbox-right">

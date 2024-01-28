@@ -5,10 +5,11 @@ import { Container } from '@mantine/core'
 import React from 'react'
 
 export default async function Page() {
-	const productsInfo = await fetchProducts(10, '', 'orderby: {field: DATE, order: DESC }')
+	const productsInfo = await fetchProducts(12, '', 'orderby: {field: DATE, order: DESC }')
 	const categories = await fetchProductCategories(100)
 	const colors = await fetchProductColors()
 	const sizes = await fetchProductSizes()
+
 	return (
 
 		<div className='shop-page'>
