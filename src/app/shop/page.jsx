@@ -5,19 +5,18 @@ import { Container } from '@mantine/core'
 import React from 'react'
 
 export default async function Page() {
-	const productsInfo = await fetchProducts(12, '', 'orderby: {field: DATE, order: DESC }')
+	const productsResponse = await fetchProducts(9, '', 'orderby: {field: DATE, order: DESC }')
 	const categories = await fetchProductCategories(100)
 	const colors = await fetchProductColors()
 	const sizes = await fetchProductSizes()
 
 	return (
-
 		<div className='shop-page'>
 			<BreadCrumbComp links={[{ label: 'Home', href: '/' }, { label: 'Shop', href: '/shop' }]} />
 			<div className="page-content">
 				<Container size={'lg'}>
 					<ShopContainer
-						productsInfo={productsInfo}
+						productsResponse={productsResponse}
 						categories={categories?.nodes}
 						colors={colors}
 						sizes={sizes}

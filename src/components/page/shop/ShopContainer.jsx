@@ -3,86 +3,64 @@ import React, { useEffect, useRef, useState } from 'react'
 import ProductCard from '@/components/product/ProductCard'
 import { Box, Flex, Grid, Group, Loader, LoadingOverlay, NativeSelect, Pagination, SimpleGrid, Text } from '@mantine/core'
 import ShopSidebar from './sidebar/ShopSidebar'
-import { useSelector } from 'react-redux'
-import { useGetProductsQuery } from '@/store/reducers/productsSlice'
 import { useInView } from 'react-intersection-observer'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProductsSlice } from '@/store/reducers/productsSlice'
 
 export default function ShopContainer(props) {
-
-	const { productsInfo, categories, colors, sizes } = props
+	const { productsResponse, categories, colors, sizes } = props
 	const filter = useSelector((state) => state.shopFilterSlice)
-	const [products, setProducts] = useState([]);
-	const [loading, setLoading] = useState(true)
-	const [canRunQuery, setCanRunQuery] = useState(false)
-	const [filterQuery, setFilterQuery] = useState('')
-	const [after, setAfter] = useState(productsInfo?.pageInfo?.endCursor)
-	const [hasNextPage, setHasNextPage] = useState(productsInfo?.pageInfo?.hasNextPage)
+	const queriedProducts = useSelector((state) => state.productSlice)
+	const dispatch = useDispatch();
 	const { ref, inView } = useInView()
 
-	const { refetch } = useGetProductsQuery({ first: 12, after: after, where: filterQuery });
+	const [products, setProducts] = useState(productsResponse?.nodes);
+	const [loading, setLoading] = useState(false)
+	const [after, setAfter] = useState(productsResponse?.pageInfo?.endCursor)
+	const [hasNextPage, setHasNextPage] = useState(productsResponse?.pageInfo?.hasNextPage)
+	const [canRunQuery, setCanRunQuery] = useState(false)
 
-	const fetchFilteredProducts = async () => {
+	useEffect(() => {
+		if (canRunQuery) {
+			let query = ''
+			if (filter?.priceRange?.length > 0) {
+				query += `minPrice:${filter?.priceRange[0]}, maxPrice:${filter?.priceRange[1]},`
+			}
+			if (filter?.category?.length > 0 || filter?.size?.length > 0) {
+				let taxonomies = [];
+				if (filter?.category?.length > 0) {
+					filter?.category?.map((item, index) => {
+						taxonomies.push(`{ taxonomy: PRODUCT_CAT, terms:"${item}"}`)
+					})
+				}
+				if (filter?.size?.length > 0) {
+					filter?.size?.map((item, index) => {
+						taxonomies.push(`{ taxonomy: PA_SIZE, terms:"${item}"}`)
+					})
+				}
+				query += `taxonomyFilter: {relation: AND, filters: [${taxonomies}]},`
+			}
+			fetchFilteredProducts(query)
+		}
+	}, [filter]);
+
+	const fetchFilteredProducts = async (query) => {
 		try {
-			setAfter('')
-			filterQueryBuilder()
+			let after = ''
 			setLoading(true)
-			const res = await refetch();
-			setProducts(res?.data?.data.products.nodes)
-			setLoading(false)
+			dispatch(fetchProductsSlice({ first: 9, after: after, where: query }))
 		} catch (error) {
 			console.error('Error fetching products:', error);
 		}
 	};
-
-	const filterQueryBuilder = () => {
-		let query = ''
-		if (filter?.priceRange?.length > 0) {
-			query += `minPrice:${filter?.priceRange[0]}, maxPrice:${filter?.priceRange[1]},`
-		}
-		if (filter?.category?.length > 0 || filter?.size?.length > 0) {
-			let taxonomies = [];
-
-			if (filter?.category?.length > 0) {
-				filter?.category?.map((item, index) => {
-					taxonomies.push(`{ taxonomy: PRODUCT_CAT, terms: "${item}" }`)
-				})
-			}
-			if (filter?.size?.length > 0) {
-				filter?.size?.map((item, index) => {
-					taxonomies.push(`{ taxonomy: PA_SIZE, terms: "${item}" }`)
-				})
-			}
-
-			query += `taxonomyFilter: {relation: AND, filters: [${taxonomies}]},`
-		}
-		setFilterQuery(query)
-	}
-
-
-	useEffect(() => {
-		if (!canRunQuery) {
-			if (props) {
-				setProducts(productsInfo?.nodes)
-				setLoading(false)
-			}
-		} else {
-			filterQueryBuilder()
-		}
-	}, [filter]);
-
 	useEffect(() => {
 		if (canRunQuery) {
-			fetchFilteredProducts()
+			setProducts(queriedProducts?.products.nodes)
+			setLoading(false)
+			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
+			setHasNextPage(queriedProducts?.products?.pageInfo?.hasNextPage)
 		}
-	}, [filterQuery])
-
-	const loadMoreProducts = async () => {
-		const res = await refetch();
-		const responseProducts = res?.data?.data.products.nodes
-		setProducts([...products, ...responseProducts])
-		setAfter(res?.data?.data?.products.pageInfo?.endCursor)
-		setHasNextPage(res?.data?.data?.products.pageInfo?.hasNextPage)
-	}
+	}, [queriedProducts])
 
 
 	useEffect(() => {
@@ -91,6 +69,14 @@ export default function ShopContainer(props) {
 		}
 	}, [inView])
 
+	const loadMoreProducts = async () => {
+		console.log('here');
+		// const res = await refetch();
+		// const responseProducts = res?.data?.data.products.nodes
+		// setProducts([...products, ...responseProducts])
+		// setAfter(res?.data?.data?.products.pageInfo?.endCursor)
+		// setHasNextPage(res?.data?.data?.products.pageInfo?.hasNextPage)
+	}
 	return (
 		<React.Fragment>
 			<Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
@@ -147,7 +133,6 @@ export default function ShopContainer(props) {
 									</div>
 								)
 							}
-
 						</React.Fragment>
 					</Box>
 				</Grid.Col>
