@@ -19,6 +19,7 @@ export default function ShopContainer(props) {
 	const [after, setAfter] = useState(productsResponse?.pageInfo?.endCursor)
 	const [hasNextPage, setHasNextPage] = useState(productsResponse?.pageInfo?.hasNextPage)
 	const [canRunQuery, setCanRunQuery] = useState(false)
+	const [filterQuery, setFilterQuery] = useState('')
 
 	useEffect(() => {
 		if (canRunQuery) {
@@ -40,6 +41,7 @@ export default function ShopContainer(props) {
 				}
 				query += `taxonomyFilter: {relation: AND, filters: [${taxonomies}]},`
 			}
+			setFilterQuery(query)
 			fetchFilteredProducts(query)
 		}
 	}, [filter]);
@@ -49,14 +51,21 @@ export default function ShopContainer(props) {
 			let after = ''
 			setLoading(true)
 			dispatch(fetchProductsSlice({ first: 9, after: after, where: query }))
+			setAfter(after)
 		} catch (error) {
 			console.error('Error fetching products:', error);
 		}
 	};
 	useEffect(() => {
-		if (canRunQuery) {
+		if (canRunQuery && after === '') {
 			setProducts(queriedProducts?.products.nodes)
 			setLoading(false)
+			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
+			setHasNextPage(queriedProducts?.products?.pageInfo?.hasNextPage)
+		}
+		if (after !== '' && inView) {
+			const responseProducts = queriedProducts?.products.nodes
+			setProducts([...products, ...responseProducts])
 			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
 			setHasNextPage(queriedProducts?.products?.pageInfo?.hasNextPage)
 		}
@@ -65,17 +74,14 @@ export default function ShopContainer(props) {
 
 	useEffect(() => {
 		if (inView) {
-			loadMoreProducts()
+			loadMoreProducts(filterQuery)
 		}
 	}, [inView])
 
-	const loadMoreProducts = async () => {
-		console.log('here');
-		// const res = await refetch();
-		// const responseProducts = res?.data?.data.products.nodes
-		// setProducts([...products, ...responseProducts])
-		// setAfter(res?.data?.data?.products.pageInfo?.endCursor)
-		// setHasNextPage(res?.data?.data?.products.pageInfo?.hasNextPage)
+	const loadMoreProducts = async (filterQuery) => {
+		if (inView) {
+			dispatch(fetchProductsSlice({ first: 9, after: after, where: filterQuery?filterQuery:'' }))
+		}
 	}
 	return (
 		<React.Fragment>
