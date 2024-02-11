@@ -1,13 +1,15 @@
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import '@/styles/style.scss';
 import Header from '@/components/header/Header';
-import { getSessionToken } from '@/query/session';
 import Footer from '@/components/footer/Footer';
 import { Next13NProgress } from 'nextjs13-progress';
 import { fetchProductCategories } from '@/query/products';
 import StoreProvider from '@/store/providers/StoreProvider';
 import ThemeProvider from '@/store/providers/ThemeProvider';
+import { getSessionToken } from '@/query/session';
 
 export const metadata = {
 	title: 'CGS Mart',
@@ -20,6 +22,7 @@ export default async function RootLayout({ children }) {
 		<html lang="en">
 			<body className='page-body'>
 				<MantineProvider>
+					<Notifications position="top-right" zIndex={1000} />
 					<StoreProvider>
 						<ThemeProvider>
 							<Header categories={categoryMenu} />

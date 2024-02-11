@@ -33,7 +33,7 @@ img {
 
 input,
 ::placeholder {
-	font-family: var(--font-family);
+	font-family: var(--font-family) !important;
 }
 
 body.page-body {

@@ -1,18 +1,18 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '@/components/product/ProductCard'
-import { Box, Flex, Grid, Group, Loader, LoadingOverlay, NativeSelect, Pagination, SimpleGrid, Text } from '@mantine/core'
+import { Box, Flex, Grid, Group, Loader, LoadingOverlay, NativeSelect, SimpleGrid, Text } from '@mantine/core'
 import ShopSidebar from './sidebar/ShopSidebar'
-import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductsSlice } from '@/store/reducers/productsSlice'
+import { useInViewport } from '@mantine/hooks'
 
 export default function ShopContainer(props) {
 	const { productsResponse, categories, colors, sizes } = props
 	const filter = useSelector((state) => state.shopFilterSlice)
 	const queriedProducts = useSelector((state) => state.productSlice)
 	const dispatch = useDispatch();
-	const { ref, inView } = useInView()
+	const {ref, inViewport} = useInViewport()
 
 	const [products, setProducts] = useState(productsResponse?.nodes);
 	const [loading, setLoading] = useState(false)
@@ -63,7 +63,7 @@ export default function ShopContainer(props) {
 			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
 			setHasNextPage(queriedProducts?.products?.pageInfo?.hasNextPage)
 		}
-		if (after !== '' && inView) {
+		if (after !== '' && inViewport) {
 			const responseProducts = queriedProducts?.products.nodes
 			setProducts([...products, ...responseProducts])
 			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
@@ -73,13 +73,13 @@ export default function ShopContainer(props) {
 
 
 	useEffect(() => {
-		if (inView) {
+		if (inViewport) {
 			loadMoreProducts(filterQuery)
 		}
-	}, [inView])
+	}, [inViewport])
 
 	const loadMoreProducts = async (filterQuery) => {
-		if (inView) {
+		if (inViewport) {
 			dispatch(fetchProductsSlice({ first: 9, after: after, where: filterQuery?filterQuery:'' }))
 		}
 	}
