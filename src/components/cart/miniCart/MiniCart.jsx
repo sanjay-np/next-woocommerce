@@ -37,7 +37,7 @@ export default function MiniCart() {
 			<HoverCard.Dropdown>
 				<div className="mini-cart-wrapper">
 					{
-						products.map((product) => {
+						products?.map((product) => {
 							return (
 								<div className="mini-cart-item" key={product.id}>
 									<div className="product">

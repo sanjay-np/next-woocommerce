@@ -8,7 +8,7 @@ export default function ProductGallery(props) {
 	const images = []
 	images.push(featured.mediaItemUrl)
 	if (gallery) {
-		gallery.map((item, index) => {
+		gallery?.map((item, index) => {
 			images.push(item?.mediaItemUrl)
 		})
 	}
@@ -36,7 +36,7 @@ export default function ProductGallery(props) {
 					)
 				}
 			>
-				{images.map((item, index) => (
+				{images?.map((item, index) => (
 					<div className="gallery-item" key={index}>
 						<img src={item} alt='Product Image' />
 					</div>

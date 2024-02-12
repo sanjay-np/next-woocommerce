@@ -90,7 +90,7 @@ export default function ProductContent(props) {
 								<Flex justify={'space-between'} align={'center'}>
 									<div className="product-cat">
 										<span>Category:</span>
-										{product?.productCategories?.nodes.map((cat) => (
+										{product?.productCategories?.nodes?.map((cat) => (
 											<Pill key={cat.id} size='md'>
 												<Link href={`/product/category/${cat.slug}`} className="cat-link">
 													{cat.name}
