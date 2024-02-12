@@ -113,7 +113,7 @@ export default function ShopSidebar(props) {
                                 {colors?.map((item, index) => (
                                     <React.Fragment key={index}>
                                         <ColorSwatch
-                                            color={item.slug}
+                                            color={item?.slug}
                                         />
                                     </React.Fragment>
                                 ))}

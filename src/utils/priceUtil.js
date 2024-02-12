@@ -12,26 +12,3 @@ export function productPrice(input) {
 	const price = `${min} - ` + '$' + ` ${max}`
 	return price;
 }
-
-export function filterQueryBuilder(filter) {
-	let query = ''
-	if (filter?.priceRange?.length > 0) {
-		query += `minPrice:${filter?.priceRange[0]}, maxPrice:${filter?.priceRange[1]},`
-	}
-	if (filter?.category?.length > 0 || filter?.size?.length > 0) {
-		let taxonomies = [];
-
-		if (filter?.category?.length > 0) {
-			filter?.category?.map((item, index) => {
-				taxonomies.push(`{ taxonomy: PRODUCT_CAT, terms: "${item}" }`)
-			})
-		}
-		if (filter?.size?.length > 0) {
-			filter?.size?.map((item, index) => {
-				taxonomies.push(`{ taxonomy: PA_SIZE, terms: "${item}" }`)
-			})
-		}
-		query += `taxonomyFilter: {relation: AND, filters: [${taxonomies}]},`
-	}
-	return query
-}

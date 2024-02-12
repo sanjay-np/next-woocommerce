@@ -11,7 +11,7 @@ export default function BreadCrumbComp(props) {
         <Breadcrumbs separator={<ChevronRightIcon size={16} color='#908e9b' />} mt="xs">
           {
             links?.map((item, index) => (
-              <Link href={item.href} key={index}>{item.label}</Link>
+              <Link href={item?.href} key={index}>{item?.label}</Link>
             ))
           }
         </Breadcrumbs>

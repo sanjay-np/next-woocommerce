@@ -39,22 +39,22 @@ export default function MiniCart() {
 					{
 						products?.map((product) => {
 							return (
-								<div className="mini-cart-item" key={product.id}>
+								<div className="mini-cart-item" key={product?.id}>
 									<div className="product">
 										<Group gap="xs" grow preventGrowOverflow={false} wrap="nowrap">
 											<figure className="image-wrapper">
 												<a href="#" className="product-image">
-													<Image src={product.image} width={0} height={0} sizes="100vw" alt="Cart Item" style={{ width: '100%', height: '100%' }} />
+													<Image src={product?.image} width={0} height={0} sizes="100vw" alt="Cart Item" style={{ width: '100%', height: '100%' }} />
 												</a>
 											</figure>
 											<Stack gap={5}>
 												<div className="product-details">
 													<h4 className="product-title">
-														<a href="#">{product.title}</a>
+														<a href="#">{product?.title}</a>
 													</h4>
 													<span className="product-info">
-														<span className="productQty">{product.qty}</span>
-														x {product.price}
+														<span className="productQty">{product?.qty}</span>
+														x {product?.price}
 													</span>
 												</div>
 											</Stack>

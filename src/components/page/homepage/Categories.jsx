@@ -14,14 +14,14 @@ export default function Categories(props) {
 					</div>
 					<SimpleGrid cols={6}>
 						{items?.map((item, index) => (
-							<div className='category-item' key={item.id}>
+							<div className='category-item' key={item?.id}>
 								<Link href={`/product/category/${item?.slug}`}>
 									<figure>
 										<span>
 											<Image width={0} height={0} sizes="100vw" src={item?.image.mediaItemUrl} alt='Category Image' style={{ width: '100%', height: '100%' }} />
 										</span>
 									</figure>
-									<h3>{item.name}</h3>
+									<h3>{item?.name}</h3>
 								</Link>
 							</div>
 						))}
