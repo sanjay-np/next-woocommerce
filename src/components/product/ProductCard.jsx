@@ -31,7 +31,7 @@ export default function ProductCard(props) {
 					{
 						item?.type === 'SIMPLE' && (
 							<>
-								{item?.price < item.regularPrice && (
+								{item?.price < item?.regularPrice && (
 									<span className="old-price">${productPrice(item?.regularPrice)}</span>
 								)}
 							</>
@@ -42,9 +42,9 @@ export default function ProductCard(props) {
 				</div>
 				<div className="ratings-container">
 					<div className="ratings">
-						<Rating fractions={2} defaultValue={item.reviewCount} readOnly />
+						<Rating fractions={2} defaultValue={item?.reviewCount} readOnly />
 					</div>
-					<span className="ratings-text">( {item.reviewCount} Reviews )</span>
+					<span className="ratings-text">( {item?.reviewCount} Reviews )</span>
 				</div>
 			</div>
 			<div className="product-footer">
