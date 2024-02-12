@@ -20,7 +20,6 @@ export default function Page() {
 			<div className="page-content">
 				<div className="cart">
 					<Container size={'lg'}>
-						{/* <CartTable /> */}
 					</Container>
 				</div>
 			</div>
