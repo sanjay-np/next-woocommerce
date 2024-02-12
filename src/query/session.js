@@ -14,14 +14,17 @@ export async function getSessionToken() {
 }
 
 export async function loginFunc(data) {
-    const query = {
-        query: `mutation login {
+	const query = {
+		query: `mutation login {
 			login(input: {password: "${data?.password}", username: "${data?.email}"}) {
-			  	sessionToken
-			  	refreshToken			  	
+				authToken
+				refreshToken
+				customer {
+				  sessionToken
+				}
 			}
 		}`
-    }
-    const response = await fetchQuery(query)
-    return response
+	}
+	const response = await fetchQuery(query)
+	return response
 }

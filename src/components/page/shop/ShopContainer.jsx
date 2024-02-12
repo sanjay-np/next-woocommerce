@@ -4,38 +4,38 @@ import ProductCard from '@/components/product/ProductCard'
 import { Box, Flex, Grid, Group, Loader, LoadingOverlay, NativeSelect, SimpleGrid, Text } from '@mantine/core'
 import ShopSidebar from './sidebar/ShopSidebar'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProductsSlice } from '@/store/reducers/productsSlice'
+import { fetchProductsSlice } from '@/store/reducers/shopFilterSlice'
 import { useInViewport } from '@mantine/hooks'
 
 export default function ShopContainer(props) {
 	const { productsResponse, categories, colors, sizes } = props
-	const filter = useSelector((state) => state.shopFilterSlice)
-	const queriedProducts = useSelector((state) => state.productSlice)
+	const {priceRange, category, size} = useSelector((state) => state.shopFilterSlice)
+	const queriedProducts = useSelector((state) => state.shopFilterSlice.products)
 	const dispatch = useDispatch();
-	const {ref, inViewport} = useInViewport()
-
+	const { ref, inViewport } = useInViewport()
 	const [products, setProducts] = useState(productsResponse?.nodes);
 	const [loading, setLoading] = useState(false)
 	const [after, setAfter] = useState(productsResponse?.pageInfo?.endCursor)
 	const [hasNextPage, setHasNextPage] = useState(productsResponse?.pageInfo?.hasNextPage)
 	const [canRunQuery, setCanRunQuery] = useState(false)
 	const [filterQuery, setFilterQuery] = useState('')
+	const [flag, setFlag] = useState(false)
 
 	useEffect(() => {
 		if (canRunQuery) {
 			let query = ''
-			if (filter?.priceRange?.length > 0) {
-				query += `minPrice:${filter?.priceRange[0]}, maxPrice:${filter?.priceRange[1]},`
+			if (priceRange?.length > 0) {
+				query += `minPrice:${priceRange[0]}, maxPrice:${priceRange[1]},`
 			}
-			if (filter?.category?.length > 0 || filter?.size?.length > 0) {
+			if (category?.length > 0 || size?.length > 0) {
 				let taxonomies = [];
-				if (filter?.category?.length > 0) {
-					filter?.category?.map((item, index) => {
+				if (category?.length > 0) {
+					category?.map((item, index) => {
 						taxonomies.push(`{ taxonomy: PRODUCT_CAT, terms:"${item}"}`)
 					})
 				}
-				if (filter?.size?.length > 0) {
-					filter?.size?.map((item, index) => {
+				if (size?.length > 0) {
+					size?.map((item, index) => {
 						taxonomies.push(`{ taxonomy: PA_SIZE, terms:"${item}"}`)
 					})
 				}
@@ -44,7 +44,7 @@ export default function ShopContainer(props) {
 			setFilterQuery(query)
 			fetchFilteredProducts(query)
 		}
-	}, [filter]);
+	}, [priceRange, category, size]);
 
 	const fetchFilteredProducts = async (query) => {
 		try {
@@ -52,35 +52,40 @@ export default function ShopContainer(props) {
 			setLoading(true)
 			dispatch(fetchProductsSlice({ first: 9, after: after, where: query }))
 			setAfter(after)
+			setFlag(true)
 		} catch (error) {
 			console.error('Error fetching products:', error);
 		}
 	};
 	useEffect(() => {
-		if (canRunQuery && after === '') {
-			setProducts(queriedProducts?.products.nodes)
-			setLoading(false)
-			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
-			setHasNextPage(queriedProducts?.products?.pageInfo?.hasNextPage)
-		}
-		if (after !== '' && inViewport) {
-			const responseProducts = queriedProducts?.products.nodes
-			setProducts([...products, ...responseProducts])
-			setAfter(queriedProducts?.products?.pageInfo?.endCursor)
-			setHasNextPage(queriedProducts?.products?.pageInfo?.hasNextPage)
+		if (flag) {
+			setFlag(false)
+			if (canRunQuery && after === '') {
+				setProducts(queriedProducts?.nodes)
+				setLoading(false)
+				setAfter(queriedProducts?.pageInfo?.endCursor)
+				setHasNextPage(queriedProducts?.pageInfo?.hasNextPage)
+			}
+			if (after !== '' && inViewport) {
+				const responseProducts = queriedProducts?.nodes
+				setProducts([...products, ...responseProducts])
+				setAfter(queriedProducts?.pageInfo?.endCursor)
+				setHasNextPage(queriedProducts?.pageInfo?.hasNextPage)
+			}
 		}
 	}, [queriedProducts])
 
 
 	useEffect(() => {
 		if (inViewport) {
+			setFlag(true)
 			loadMoreProducts(filterQuery)
 		}
 	}, [inViewport])
 
 	const loadMoreProducts = async (filterQuery) => {
 		if (inViewport) {
-			dispatch(fetchProductsSlice({ first: 9, after: after, where: filterQuery?filterQuery:'' }))
+			dispatch(fetchProductsSlice({ first: 9, after: after, where: filterQuery ? filterQuery : '' }))
 		}
 	}
 	return (
@@ -100,11 +105,6 @@ export default function ShopContainer(props) {
 						<React.Fragment>
 							<div className="toolbox">
 								<Flex justify={'space-between'} align={'center'}>
-									<div className="toolbox-left">
-										<div className="toolbox-info">
-											{/* Showing <span>{productsInfo?.nodes.length} of {productsInfo?.pageInfo?.total}</span> Products */}
-										</div>
-									</div>
 									<div className="toolbox-right">
 										<div className="toolbox-sort">
 											<Group>

@@ -1,7 +1,6 @@
 'use client'
 import { createSlice } from "@reduxjs/toolkit"
 
-
 export const themeSelectorSlice = createSlice({
     name: "themeSelectorSlice",
     initialState: {
