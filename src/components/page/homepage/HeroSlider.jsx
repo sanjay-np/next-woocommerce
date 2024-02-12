@@ -31,7 +31,7 @@ export default function HeroSlider(props) {
 					)
 				}
 			>
-				{items.map((item, index) => (
+				{items?.map((item, index) => (
 					<div className="slider-item" key={index}>
 						<Image src={item?.bannerImage.mediaItemUrl} width={0} height={0} sizes="100vw" alt="Hero Image" style={{ width: '100%', height: '100%' }} />
 					</div>

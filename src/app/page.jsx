@@ -1,4 +1,3 @@
-
 import Banner from "@/components/page/homepage/Banner"
 import Categories from "@/components/page/homepage/Categories"
 import HeroSlider from "@/components/page/homepage/HeroSlider"
