@@ -5,10 +5,17 @@ import { Link } from 'nextjs13-progress'
 import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'
 import ProductAttributes from './ProductAttributes'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setSingleProduct } from '@/store/reducers/productSlice'
+
 export default function ProductContent(props) {
 	const { product } = props
 	const [qty, setQty] = useState(1)
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(setSingleProduct(product))
+	}, [])
 	return (
 		<>
 			<div className="product-top-section">

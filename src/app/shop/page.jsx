@@ -1,5 +1,5 @@
 import BreadCrumbComp from '@/components/breadcrumbs/BreadCrumbComp';
-import ShopContainer from '@/components/page/shop/ShopContainer';
+// import ShopContainer from '@/components/page/shop/ShopContainer';
 import { fetchProductCategories, fetchProductColors, fetchProductSizes, fetchProducts } from '@/query/products';
 import { Container } from '@mantine/core'
 import React from 'react'
@@ -15,12 +15,12 @@ export default async function Page() {
 			<BreadCrumbComp links={[{ label: 'Home', href: '/' }, { label: 'Shop', href: '/shop' }]} />
 			<div className="page-content">
 				<Container size={'lg'}>
-					<ShopContainer
+					{/* <ShopContainer
 						productsResponse={productsResponse}
 						categories={categories?.nodes}
 						colors={colors}
 						sizes={sizes}
-					/>
+					/> */}
 				</Container>
 			</div>
 		</div>
