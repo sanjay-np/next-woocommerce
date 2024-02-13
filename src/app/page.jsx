@@ -4,7 +4,7 @@
  * the products from the API and displays them on the page.
  * @returns {JSX.Element} The homepage component
  */
-export default async function Page() {
+export default function Page() {
 	
 	return (
 		<main className="main min-h-screen">
