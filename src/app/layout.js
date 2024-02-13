@@ -17,7 +17,6 @@ export const metadata = {
 }
 export default async function RootLayout({ children }) {
 	// const sessionToken = await getSessionToken()
-	const categoryMenu = await fetchProductCategories(7)
 	return (
 		<html lang="en">
 			<body className='page-body'>
@@ -25,7 +24,6 @@ export default async function RootLayout({ children }) {
 					<Notifications position="top-right" zIndex={1000} />
 					<StoreProvider>
 						<ThemeProvider>
-							<Header categories={categoryMenu} />
 							<div className='page-wrapper'>{children}</div>
 							<Footer />
 							<Next13NProgress color="#C96" height={3} />
