@@ -15,33 +15,10 @@ import { fetchProducts } from "@/query/products"
  * @returns {JSX.Element} The homepage component
  */
 export default async function Page() {
-	const content = await getHomePageContent();
-	const trendingProducts = await fetchProducts(4, '', 'featured: true');
-	const onSaleProducts = await fetchProducts(4, '', 'onSale: true');
-	const recommendedProducts = await fetchProducts(8, '', 'orderby: {field: DATE, order: ASC }');
-
+	
 	return (
 		<main className="main min-h-screen">
-			<div className="homepage">
-				<div className="hero-slider">
-					<HeroSlider items={content?.banner} />
-				</div>
-				<div className="categories-section">
-					<Categories items={content?.categories} />
-				</div>
-				<div className="offer-section">
-					<Banner />
-				</div>
-				<div className="trending-section">
-					<Trending trendingProducts={trendingProducts?.nodes} onSaleProducts={onSaleProducts?.nodes} />
-				</div>
-				<div className="recommended-section">
-					<Recomended products={recommendedProducts?.nodes} />
-				</div>
-				<div className="icon-box-section">
-					<IconBox />
-				</div>
-			</div>
+			
 		</main>
 	);
 }
