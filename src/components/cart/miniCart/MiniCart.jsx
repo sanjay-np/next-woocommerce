@@ -1,9 +1,12 @@
 import React from 'react'
-import { HoverCard, Group, Stack, CloseIcon, Button } from '@mantine/core';
+import { HoverCard, Group, Stack, CloseIcon, Button, UnstyledButton, Drawer, Badge } from '@mantine/core';
 import { ArrowRight, ShoppingBasketIcon } from 'lucide-react';
 import Image from 'next/image';
+import { useDisclosure } from '@mantine/hooks';
 
 export default function MiniCart() {
+	const [opened, { open, close }] = useDisclosure(false);
+
 	const products = [
 		{
 			id: "1",
@@ -21,20 +24,20 @@ export default function MiniCart() {
 		},
 	]
 	return (
-		<HoverCard
-			width={380}
-			shadow="lg"
-			withArrow
-			arrowSize={20}
-			offset={{ crossAxis: -130 }}
-		>
-			<HoverCard.Target>
+		<>
+			<UnstyledButton onClick={open} className='mini-cart-icon-wrapper'>
+				<Badge size="sm" color='red' circle className='cart-item-count'>0</Badge>
 				<div className="icon">
 					<ShoppingBasketIcon size={26} strokeWidth={1.5} color='#333' />
 					<p>Cart</p>
 				</div>
-			</HoverCard.Target>
-			<HoverCard.Dropdown>
+			</UnstyledButton>
+			<Drawer
+				opened={opened}
+				onClose={close}
+				position='right'
+				size={'xs'}
+				title="Your Cart">
 				<div className="mini-cart-wrapper">
 					{
 						products?.map((product) => {
@@ -78,7 +81,7 @@ export default function MiniCart() {
 						</Group>
 					</div>
 				</div>
-			</HoverCard.Dropdown>
-		</HoverCard>
+			</Drawer>
+		</>
 	)
 }

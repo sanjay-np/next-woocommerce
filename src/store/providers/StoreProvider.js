@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { store } from '../store'
 
 export default function StoreProvider({ children }) {

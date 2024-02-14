@@ -21,6 +21,14 @@
 						font-size: var(--size-sm);
 						color: var(--text-light);
 					}
+					.mini-cart-icon-wrapper{
+						position: relative;
+						.cart-item-count{
+							position: absolute;
+							right: -10px;
+							top: -10px;
+						}
+					}
 				}
 			}
 		}
