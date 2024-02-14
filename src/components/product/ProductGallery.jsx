@@ -17,6 +17,7 @@ export default function ProductGallery(props) {
 			<Carousel
 				showIndicators={false}
 				autoPlay={true}
+				selectedItem={1}
 				showStatus={false}
 				infiniteLoop={true}
 				thumbWidth={100}

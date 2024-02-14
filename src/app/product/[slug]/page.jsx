@@ -10,9 +10,7 @@ export default async function Page({ params }) {
 	
 	if(!slug || product === null){
 		return(
-			<h1>
-				No product found
-			</h1>
+			<h1>No product found</h1>
 		)
 	}
 

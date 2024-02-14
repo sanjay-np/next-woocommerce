@@ -105,6 +105,7 @@ export default function ShopContainer(props) {
 						<React.Fragment>
 							<div className="toolbox">
 								<Flex justify={'space-between'} align={'center'}>
+									<div className="toolbox-left"></div>
 									<div className="toolbox-right">
 										<div className="toolbox-sort">
 											<Group>

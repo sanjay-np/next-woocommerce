@@ -7,15 +7,16 @@ import { productPrice } from '@/utils/priceUtil'
 import ProductAttributes from './ProductAttributes'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setSingleProduct } from '@/store/reducers/productSlice'
+import { setIsVariableProduct, setProduct } from '@/store/reducers/productSlice'
 
 export default function ProductContent(props) {
 	const { product } = props
 	const [qty, setQty] = useState(1)
 	const dispatch = useDispatch()
 	useEffect(() => {
-		dispatch(setSingleProduct(product))
-	}, [])
+		dispatch(setProduct(product))
+		dispatch(setIsVariableProduct(product?.type))
+	},[])
 	return (
 		<>
 			<div className="product-top-section">
@@ -62,7 +63,7 @@ export default function ProductContent(props) {
 										</Box>
 									</div>
 									<div className="details-action-wrapper">
-										<Group justify='space-between'>
+										<Group justify='flex-start'>
 											<Button
 												variant="outline"
 												color="#c96"
@@ -80,15 +81,7 @@ export default function ProductContent(props) {
 												className='btn-product btn-wishlist'
 											>
 												Add to Wishlist
-											</Button>
-											<Button
-												variant='transparent'
-												color='#666'
-												leftSection={<ShuffleIcon size={18} strokeWidth={1.5} />}
-												className='btn-product btn-compare'
-											>
-												Add to Compare
-											</Button>
+											</Button>											
 										</Group>
 									</div>
 								</div>
