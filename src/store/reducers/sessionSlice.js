@@ -6,16 +6,25 @@ export const sessionSlice = createSlice({
     initialState: {
         isAuthenticated: false,
         hasCredentials: false,
-        cart: null,
-        customer: null,
+        cart: {},
+        customer: {},
         cartUrl: '',
         checkoutUrl: '',
         accountUrl: '',
     },
     reducers: {
-        setSession(state, action) {
-            // state.customer = action.payload
+        setWoocommerceSession(state, action) {
+            console.log(action.payload);
+            sessionStorage.setItem('woo-session', action.payload?.customer.sessionToken)
+            state.cart = action.payload?.cart
+            state.customer = action.payload?.customer
+        },
+        updateCustomer(state, action) {
+
+        },
+        updateCart(state, action) {
+
         }
     }
 })
-export const { setSession } = sessionSlice.actions
+export const { setWoocommerceSession } = sessionSlice.actions

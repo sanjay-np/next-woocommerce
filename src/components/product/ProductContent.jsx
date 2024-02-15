@@ -1,6 +1,6 @@
 'use client'
-import { Box, Button, Flex, Grid, Group, Pill, Rating, Select, Tabs, TextInput } from '@mantine/core'
-import { FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, ShuffleIcon, TwitterIcon } from 'lucide-react'
+import { Box, Button, Flex, Grid, Group, Pill, Rating, Tabs, TextInput } from '@mantine/core'
+import { FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, TwitterIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'
@@ -12,11 +12,17 @@ import { setIsVariableProduct, setProduct } from '@/store/reducers/productSlice'
 export default function ProductContent(props) {
 	const { product } = props
 	const [qty, setQty] = useState(1)
+	const [loading, setLoading] = useState(false)
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(setProduct(product))
 		dispatch(setIsVariableProduct(product?.type))
-	},[])
+	}, [])
+
+	const handeAddToCart = async () => {
+		setLoading(true)
+	}
+
 	return (
 		<>
 			<div className="product-top-section">
@@ -71,6 +77,8 @@ export default function ProductContent(props) {
 												size="md"
 												leftSection={<ShoppingBagIcon size={18} strokeWidth={1.5} />}
 												className='btn-product btn-cart'
+												onClick={handeAddToCart}
+												loading={loading}
 											>
 												Add to cart
 											</Button>
@@ -81,7 +89,7 @@ export default function ProductContent(props) {
 												className='btn-product btn-wishlist'
 											>
 												Add to Wishlist
-											</Button>											
+											</Button>
 										</Group>
 									</div>
 								</div>
