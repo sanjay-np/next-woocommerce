@@ -1,32 +1,24 @@
-import React from 'react'
-import { HoverCard, Group, Stack, CloseIcon, Button, UnstyledButton, Drawer, Badge } from '@mantine/core';
+'use client'
+import React, { useEffect, useState } from 'react'
+import { Group, Stack, CloseIcon, Button, UnstyledButton, Drawer, Badge } from '@mantine/core';
 import { ArrowRight, ShoppingBasketIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useDisclosure } from '@mantine/hooks';
+import { useSelector } from 'react-redux';
 
 export default function MiniCart() {
+	const { cart } = useSelector((state) => state.sessionSlice)
 	const [opened, { open, close }] = useDisclosure(false);
-
-	const products = [
-		{
-			id: "1",
-			title: "Beige knitted elastic runner shoes",
-			price: '$84.00',
-			qty: '1',
-			image: "/assets/images/cart/product-1.jpg"
-		},
-		{
-			id: "2",
-			title: "Beige knitted elastic runner shoes-1",
-			price: '$84.00',
-			qty: '1',
-			image: "/assets/images/cart/product-2.jpg"
-		},
-	]
+	const [cartCount, setCartCount] = useState(0)
+	const [products, setProducts] = useState([])
+	useEffect(() => {
+		setCartCount(cart?.contents?.nodes.length)
+		setProducts(cart?.contents?.nodes)
+	}, [cart])
 	return (
 		<>
 			<UnstyledButton onClick={open} className='mini-cart-icon-wrapper'>
-				<Badge size="sm" color='red' circle className='cart-item-count'>0</Badge>
+				<Badge size="sm" color='red' circle className='cart-item-count'>{cartCount}</Badge>
 				<div className="icon">
 					<ShoppingBasketIcon size={26} strokeWidth={1.5} color='#333' />
 					<p>Cart</p>
@@ -39,25 +31,25 @@ export default function MiniCart() {
 				size={'xs'}
 				title="Your Cart">
 				<div className="mini-cart-wrapper">
-					{
-						products?.map((product) => {
-							return (
-								<div className="mini-cart-item" key={product?.id}>
+
+					{products?.map((item) => {
+						return (
+							<React.Fragment key={item?.key}>
+								<div className="mini-cart-item">
 									<div className="product">
 										<Group gap="xs" grow preventGrowOverflow={false} wrap="nowrap">
 											<figure className="image-wrapper">
 												<a href="#" className="product-image">
-													<Image src={product?.image} width={0} height={0} sizes="100vw" alt="Cart Item" style={{ width: '100%', height: '100%' }} />
+													<Image src={item?.product?.node?.image?.sourceUrl} width={80} height={80} sizes="100vw" alt="Cart Item" />
 												</a>
 											</figure>
 											<Stack gap={5}>
 												<div className="product-details">
-													<h4 className="product-title">
-														<a href="#">{product?.title}</a>
-													</h4>
+													<h4 className="product-title"><a href="#">{item?.product?.node?.name}</a></h4>
 													<span className="product-info">
-														<span className="productQty">{product?.qty}</span>
-														x {product?.price}
+														<span className="productQty">{item?.quantity}</span>
+														x <span dangerouslySetInnerHTML={{ __html: item?.product?.node?.price }} />
+														= <span dangerouslySetInnerHTML={{ __html: item?.total }} />
 													</span>
 												</div>
 											</Stack>
@@ -65,9 +57,9 @@ export default function MiniCart() {
 										</Group>
 									</div>
 								</div>
-							)
-						})
-					}
+							</React.Fragment>
+						)
+					})}
 					<div className="cart-total">
 						<Group justify="space-between">
 							<span>Total</span>

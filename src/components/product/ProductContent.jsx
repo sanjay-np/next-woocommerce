@@ -1,6 +1,6 @@
 'use client'
 import { Box, Button, Flex, Grid, Group, Pill, Rating, Tabs, TextInput } from '@mantine/core'
-import { FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, TwitterIcon } from 'lucide-react'
+import { CheckCircleIcon, FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, TwitterIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'
@@ -8,6 +8,9 @@ import ProductAttributes from './ProductAttributes'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setIsVariableProduct, setProduct } from '@/store/reducers/productSlice'
+import { addToCartFunc } from '@/query/cart'
+import { updateCart } from '@/store/reducers/sessionSlice'
+import { notifications } from '@mantine/notifications'
 
 export default function ProductContent(props) {
 	const { product } = props
@@ -20,7 +23,25 @@ export default function ProductContent(props) {
 	}, [])
 
 	const handeAddToCart = async () => {
-		setLoading(true)
+		// TODO: add to cart for variable product
+		try {
+			setLoading(true)
+			const res = await addToCartFunc({ productId: product?.databaseId, quantity: qty }, localStorage.getItem('woo-session'))
+			if (res?.addCartItems) {
+				notifications.show({
+					title: 'Success',
+					message: 'Item added to cart',
+					withCloseButton: true,
+					color: 'white',
+					icon: <CheckCircleIcon color='green' strokeWidth={1.5} />,
+				})
+				dispatch(updateCart(res?.addCartItems?.cart))
+			}
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setLoading(false)
+		}
 	}
 
 	return (

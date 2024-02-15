@@ -5,6 +5,11 @@
 		margin: 5px 0;
 
 		.product {
+			.image-wrapper{
+				width: 80px;
+				height: 80px;
+				max-width: 80px;
+			}
 			.product-details {
 				.product-title {
 					color: var(--text-dark);

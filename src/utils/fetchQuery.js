@@ -16,7 +16,7 @@ export async function fetchQuery(query) {
 	}
 }
 
-export async function fetchQueryWithSession(query) {
+export async function fetchQueryWithSession(query, sessionToken) {
 	try {
 		const res = await fetch(API_URL, {
 			method: 'POST',

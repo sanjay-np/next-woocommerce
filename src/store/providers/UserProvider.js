@@ -10,12 +10,14 @@ export default function UserProvider({ children }) {
     const theme = useSelector((state) => state.themeSelectorSlice.theme)
 
     const getWoocommerceUserSession = async () => {    
-        const session = sessionStorage.getItem('woo-session')
+        const session = localStorage.getItem('woo-session')
         if(!session){
             const res = await getWoocommerceSession()
             if(res){
                 dispatch(setWoocommerceSession(res))
             }
+        }else{
+            // TODO: fetch customer and cart items with session
         }
     }
 

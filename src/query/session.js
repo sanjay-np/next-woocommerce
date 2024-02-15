@@ -12,6 +12,25 @@ export async function getWoocommerceSession() {
                         product {
                             node {
                                 id
+                                databaseId
+                                name
+                                slug
+                                type
+                                image {
+                                    id
+                                    sourceUrl(size:WOOCOMMERCE_THUMBNAIL)
+                                    altText
+                                }
+                                ... on SimpleProduct {
+                                    price
+                                    regularPrice
+                                    soldIndividually
+                                }
+                                ... on VariableProduct {
+                                    price
+                                    regularPrice
+                                    soldIndividually
+                                }
                             }
                         }
                         variation {
@@ -23,6 +42,16 @@ export async function getWoocommerceSession() {
                             }
                             node {
                                 id
+                                databaseId
+                                name
+                                slug
+                                image {
+                                    id
+                                    sourceUrl(size:WOOCOMMERCE_THUMBNAIL)
+                                    altText
+                                }
+                                price
+                                regularPrice
                             }
                         }
                         quantity
