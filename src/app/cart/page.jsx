@@ -1,4 +1,4 @@
-// import CartTable from '@/components/cart/cartTable'
+import CartTable from '@/components/page/cart/CartTable'
 import { Breadcrumbs, Container, Grid } from '@mantine/core'
 import { ChevronRightIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
@@ -8,7 +8,7 @@ export default function Page() {
 
 	return (
 		<div className='cart-page'>
-			<div className="breadcrumbs-wrapper">
+			<div className="breadcrumb-wrapper">
 				<Container size={'lg'}>
 					<Breadcrumbs separator={<ChevronRightIcon size={16} color='#666' />} mt="xs">
 						<Link href={'/'}>Home</Link>
@@ -20,6 +20,7 @@ export default function Page() {
 			<div className="page-content">
 				<div className="cart">
 					<Container size={'lg'}>
+						<CartTable/>
 					</Container>
 				</div>
 			</div>

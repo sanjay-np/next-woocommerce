@@ -1,23 +1,50 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Group, Stack, CloseIcon, Button, UnstyledButton, Drawer, Badge } from '@mantine/core';
+import { Group, Stack, CloseIcon, Button, UnstyledButton, Drawer, Badge, Box, LoadingOverlay } from '@mantine/core';
 import { ArrowRight, ShoppingBasketIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useDisclosure } from '@mantine/hooks';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { updateCart } from '@/store/reducers/sessionSlice';
+import { removeCartItem } from '@/query/cart';
 
 export default function MiniCart() {
+	const router = useRouter()
+	const [loading, setLoading] = useState(false)
 	const { cart } = useSelector((state) => state.sessionSlice)
-	const [opened, { open, close }] = useDisclosure(false);
+	const [opened, handlers] = useDisclosure(false);
 	const [cartCount, setCartCount] = useState(0)
 	const [products, setProducts] = useState([])
+	const dispatch = useDispatch()
+
 	useEffect(() => {
 		setCartCount(cart?.contents?.nodes.length)
 		setProducts(cart?.contents?.nodes)
 	}, [cart])
+
+	const handleCartClick = () => {
+		handlers.close()
+		router.push('/cart')
+	}
+
+	const handleRemoveCart = async (cartKey) => {
+		try {
+			setLoading(true)
+			const res = await removeCartItem(cartKey, localStorage.getItem('woo-session'))
+			if (res?.removeItemsFromCart) {
+				dispatch(updateCart(res?.removeItemsFromCart?.cart))
+			}
+		} catch (err) {
+			console.log(err);
+		}finally{
+			setLoading(false)
+		}
+	}
+
 	return (
 		<>
-			<UnstyledButton onClick={open} className='mini-cart-icon-wrapper'>
+			<UnstyledButton onClick={() => handlers.open()} className='mini-cart-icon-wrapper'>
 				<Badge size="sm" color='red' circle className='cart-item-count'>{cartCount}</Badge>
 				<div className="icon">
 					<ShoppingBasketIcon size={26} strokeWidth={1.5} color='#333' />
@@ -26,49 +53,52 @@ export default function MiniCart() {
 			</UnstyledButton>
 			<Drawer
 				opened={opened}
-				onClose={close}
+				onClose={() => { handlers.close() }}
 				position='right'
 				size={'xs'}
 				title="Your Cart">
 				<div className="mini-cart-wrapper">
 
-					{products?.map((item) => {
-						return (
-							<React.Fragment key={item?.key}>
-								<div className="mini-cart-item">
-									<div className="product">
-										<Group gap="xs" grow preventGrowOverflow={false} wrap="nowrap">
-											<figure className="image-wrapper">
-												<a href="#" className="product-image">
-													<Image src={item?.product?.node?.image?.sourceUrl} width={80} height={80} sizes="100vw" alt="Cart Item" />
-												</a>
-											</figure>
-											<Stack gap={5}>
-												<div className="product-details">
-													<h4 className="product-title"><a href="#">{item?.product?.node?.name}</a></h4>
-													<span className="product-info">
-														<span className="productQty">{item?.quantity}</span>
-														x <span dangerouslySetInnerHTML={{ __html: item?.product?.node?.price }} />
-														= <span dangerouslySetInnerHTML={{ __html: item?.total }} />
-													</span>
-												</div>
-											</Stack>
-											<CloseIcon size={18} color='#777' />
-										</Group>
+					<Box pos={'relative'}>
+						<LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 1 }} loaderProps={{ color: '#C96', type: 'bars' }} />
+						{products?.map((item) => {
+							return (
+								<React.Fragment key={item?.key}>
+									<div className="mini-cart-item">
+										<div className="product">
+											<Group gap="xs" grow preventGrowOverflow={false} wrap="nowrap">
+												<figure className="image-wrapper">
+													<a href="#" className="product-image">
+														<Image src={item?.product?.node?.image?.sourceUrl} width={80} height={80} sizes="100vw" alt="Cart Item" />
+													</a>
+												</figure>
+												<Stack gap={5}>
+													<div className="product-details">
+														<h4 className="product-title"><a href="#">{item?.product?.node?.name}</a></h4>
+														<span className="product-info">
+															<span className="productQty">{item?.quantity}</span>
+															x <span dangerouslySetInnerHTML={{ __html: item?.product?.node?.price }} />
+															= <span dangerouslySetInnerHTML={{ __html: item?.total }} />
+														</span>
+													</div>
+												</Stack>
+												<UnstyledButton onClick={() => { handleRemoveCart(item?.key) }}><CloseIcon size={18} color='#777' /></UnstyledButton>
+											</Group>
+										</div>
 									</div>
-								</div>
-							</React.Fragment>
-						)
-					})}
+								</React.Fragment>
+							)
+						})}
+					</Box>
 					<div className="cart-total">
 						<Group justify="space-between">
 							<span>Total</span>
-							<span className="cart-total-price">$160.00</span>
+							<span className="cart-total-price"><span dangerouslySetInnerHTML={{ __html: cart?.total }} /></span>
 						</Group>
 					</div>
 					<div className="cart-action">
 						<Group justify='space-between' grow wrap='wrap'>
-							<Button radius={0} className='cart-btn btn'>View Cart</Button>
+							<Button radius={0} className='cart-btn btn' onClick={handleCartClick}>View Cart</Button>
 							<Button radius={0} variant="outline" className='checkout-btn btn' rightSection={<ArrowRight size={16} />}>Checkout</Button>
 						</Group>
 					</div>

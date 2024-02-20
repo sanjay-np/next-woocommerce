@@ -34,6 +34,8 @@ export default function ProductContent(props) {
 					withCloseButton: true,
 					color: 'white',
 					icon: <CheckCircleIcon color='green' strokeWidth={1.5} />,
+					autoClose: 3000,
+					containerWidth:300,
 				})
 				dispatch(updateCart(res?.addCartItems?.cart))
 			}
