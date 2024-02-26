@@ -21,6 +21,7 @@ export default function ProductGallery(props) {
 				showStatus={false}
 				infiniteLoop={true}
 				thumbWidth={100}
+				interval={6000}
 				renderArrowPrev={(clickHandler, hasPrev) =>
 					hasPrev && (
 						<div onClick={clickHandler} className="slider-prev">

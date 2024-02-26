@@ -6,8 +6,8 @@ import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'
 import ProductAttributes from './ProductAttributes'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setIsVariableProduct, setProduct } from '@/store/reducers/productSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { setIsVariableProduct, setProduct, setSelectedAttributes } from '@/store/reducers/productSlice'
 import { addToCartFunc } from '@/query/cart'
 import { updateCart } from '@/store/reducers/sessionSlice'
 import { notifications } from '@mantine/notifications'
@@ -15,12 +15,24 @@ import { notifications } from '@mantine/notifications'
 export default function ProductContent(props) {
 	const { product } = props
 	const [qty, setQty] = useState(1)
-	const [loading, setLoading] = useState(false)
 	const dispatch = useDispatch()
+	const { selectedVariation, isAvailable } = useSelector((state) => state.productSlice)
+	const [price, setPrice] = useState(product?.price)
+	const [loading, setLoading] = useState(false)
+
 	useEffect(() => {
 		dispatch(setProduct(product))
 		dispatch(setIsVariableProduct(product?.type))
+		dispatch(setSelectedAttributes({}))
 	}, [])
+
+	useEffect(() => {
+		if (selectedVariation !== null) {
+			setPrice(selectedVariation?.rawPrice)
+		} else {
+			setPrice(product?.price)
+		}
+	}, [selectedVariation])
 
 	const handeAddToCart = async () => {
 		// TODO: add to cart for variable product
@@ -35,7 +47,7 @@ export default function ProductContent(props) {
 					color: 'white',
 					icon: <CheckCircleIcon color='green' strokeWidth={1.5} />,
 					autoClose: 3000,
-					containerWidth:300,
+					containerWidth: 300,
 				})
 				dispatch(updateCart(res?.addCartItems?.cart))
 			}
@@ -63,21 +75,20 @@ export default function ProductContent(props) {
 								</Group>
 							</div>
 							<div className="product-price">
-								<span>${productPrice(product?.price)}</span>
-								{
-									product?.type === 'SIMPLE' && (
-										<>
-											{product?.price < product.regularPrice && (
-												<span className="old-price">${productPrice(product?.regularPrice)}</span>
-											)}
-										</>
-									)
-								}
+								<span>${productPrice(price)}</span>
+								{product?.type === 'SIMPLE' && (
+									<>
+										{product?.price < product.regularPrice && (
+											<span className="old-price">${productPrice(product?.regularPrice)}</span>
+										)}
+									</>
+								)}
 							</div>
 							<div className="product-content">
 								<div dangerouslySetInnerHTML={{ __html: product?.shortDescription }} />
 							</div>
 							{product?.type === 'VARIABLE' && (<ProductAttributes attributes={product?.attributes.nodes} />)}
+
 							<div className="product-details-action">
 								<div className="details-action-col">
 									<div className="product-details-quantity">
@@ -91,6 +102,7 @@ export default function ProductContent(props) {
 											/>
 										</Box>
 									</div>
+
 									<div className="details-action-wrapper">
 										<Group justify='flex-start'>
 											<Button
@@ -102,6 +114,7 @@ export default function ProductContent(props) {
 												className='btn-product btn-cart'
 												onClick={handeAddToCart}
 												loading={loading}
+												disabled={!isAvailable}
 											>
 												Add to cart
 											</Button>

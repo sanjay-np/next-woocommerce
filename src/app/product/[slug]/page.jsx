@@ -7,13 +7,12 @@ import React from 'react'
 export default async function Page({ params }) {
 	const { slug } = params
 	const product = await fetchProduct(slug)
-	
+		
 	if(!slug || product === null){
 		return(
 			<h1>No product found</h1>
 		)
 	}
-
 	if (slug) {
 		return (
 			<div className='single-product-page'>

@@ -5,8 +5,10 @@ export const productSlice = createSlice({
 	initialState: {
 		product: null,
 		isVariableProduct: false,
-		hasSelectedVariation: false,
 		selectedVariation: null,
+		selectedAttributes: {},
+		hasSelectedVariation: false,
+		isAvailable: false
 	},
 	reducers: {
 		setProduct(state, action) {
@@ -16,13 +18,18 @@ export const productSlice = createSlice({
 			if (action.payload === 'VARIABLE')
 				state.isVariableProduct = true
 		},
-		setHasSelectedVariation(state, action) {
-			state.hasSelectedVariation = action.payload
-		},
 		setSelectedVariation(state, action) {
 			state.selectedVariation = action.payload
 		},
+		setSelectedAttributes(state, action) {
+			state.selectedAttributes = action.payload
+		},
+		setHasSelectedVariation(state, action) {
+			state.hasSelectedVariation = action.payload
+		},
+		setIsAvailable(state, action) {
+			state.isAvailable = action.payload
+		}
 	},
-
 })
-export const { setProduct, setIsVariableProduct, setHasSelectedVariation, setSelectedVariation } = productSlice.actions
+export const { setProduct, setIsVariableProduct, setSelectedVariation, setSelectedAttributes, setHasSelectedVariation, setIsAvailable } = productSlice.actions
