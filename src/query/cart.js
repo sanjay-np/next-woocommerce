@@ -2,10 +2,10 @@
 
 import { fetchQueryWithSession } from "@/utils/fetchQuery"
 
-export async function addToCartFunc(data, wooSession){    
-    const query ={
-        query:`mutation MyMutation {
-            addCartItems(input: {items: {productId: ${data?.productId}, quantity: ${data?.quantity}}}) {
+export async function addToCartFunc(data, wooSession) {
+    const query = {
+        query: `mutation MyMutation {
+            addCartItems(input: {items: {productId: ${data?.productId},${data?.variationQuery !== '' ? data?.variationQuery : ''} quantity: ${data?.quantity}}}) {
                 cart {
                     contents(first: 100) {
                         itemCount
@@ -100,7 +100,7 @@ export async function addToCartFunc(data, wooSession){
     const response = await fetchQueryWithSession(query, wooSession)
     return response?.data
 }
-export async function removeCartItem(key, session){
+export async function removeCartItem(key, session) {
 
     const query = {
         query: `mutation MyMutation {

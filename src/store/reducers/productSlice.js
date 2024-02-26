@@ -8,7 +8,7 @@ export const productSlice = createSlice({
 		selectedVariation: null,
 		selectedAttributes: {},
 		hasSelectedVariation: false,
-		isAvailable: false
+		isAvailable: null
 	},
 	reducers: {
 		setProduct(state, action) {

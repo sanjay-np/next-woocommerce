@@ -7,7 +7,7 @@ import { productPrice } from '@/utils/priceUtil'
 import ProductAttributes from './ProductAttributes'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setIsVariableProduct, setProduct, setSelectedAttributes } from '@/store/reducers/productSlice'
+import { setIsAvailable, setIsVariableProduct, setProduct, setSelectedAttributes } from '@/store/reducers/productSlice'
 import { addToCartFunc } from '@/query/cart'
 import { updateCart } from '@/store/reducers/sessionSlice'
 import { notifications } from '@mantine/notifications'
@@ -16,15 +16,25 @@ export default function ProductContent(props) {
 	const { product } = props
 	const [qty, setQty] = useState(1)
 	const dispatch = useDispatch()
-	const { selectedVariation, isAvailable } = useSelector((state) => state.productSlice)
+	const { isVariableProduct, selectedVariation, isAvailable, selectedAttributes } = useSelector((state) => state.productSlice)
 	const [price, setPrice] = useState(product?.price)
 	const [loading, setLoading] = useState(false)
+	const [disableBtn, setDisableBtn] = useState(false)
 
 	useEffect(() => {
 		dispatch(setProduct(product))
 		dispatch(setIsVariableProduct(product?.type))
 		dispatch(setSelectedAttributes({}))
+		if (product?.type === 'VARIABLE') {
+			setDisableBtn(true)
+		}
 	}, [])
+	useEffect(() => {
+		if (isAvailable !== null) {
+			dispatch(setIsAvailable(isAvailable))
+			setDisableBtn(isAvailable)
+		}
+	}, [isAvailable])
 
 	useEffect(() => {
 		if (selectedVariation !== null) {
@@ -34,11 +44,26 @@ export default function ProductContent(props) {
 		}
 	}, [selectedVariation])
 
+	function variationQueryFunc(inputObject) {
+		const outputArray = [];
+		for (const key in inputObject) {
+			if (inputObject.hasOwnProperty(key)) {
+				outputArray.push(`{attributeName: "${key.toLowerCase()}",attributeValue: "${inputObject[key]}"}`);
+			}
+		}
+		return outputArray;
+	}
 	const handeAddToCart = async () => {
 		// TODO: add to cart for variable product
 		try {
 			setLoading(true)
-			const res = await addToCartFunc({ productId: product?.databaseId, quantity: qty }, localStorage.getItem('woo-session'))
+			let variationQuery = ''
+			if (isVariableProduct) {
+				let variationId = selectedVariation?.databaseId
+				let variationArray = variationQueryFunc(selectedAttributes)
+				variationQuery = `variationId: ${variationId}, variation: [${variationArray}],`
+			}
+			const res = await addToCartFunc({ productId: product?.databaseId, variationQuery: variationQuery, quantity: qty }, localStorage.getItem('woo-session'))
 			if (res?.addCartItems) {
 				notifications.show({
 					title: 'Success',
@@ -47,7 +72,6 @@ export default function ProductContent(props) {
 					color: 'white',
 					icon: <CheckCircleIcon color='green' strokeWidth={1.5} />,
 					autoClose: 3000,
-					containerWidth: 300,
 				})
 				dispatch(updateCart(res?.addCartItems?.cart))
 			}
@@ -114,7 +138,7 @@ export default function ProductContent(props) {
 												className='btn-product btn-cart'
 												onClick={handeAddToCart}
 												loading={loading}
-												disabled={!isAvailable}
+												disabled={disableBtn}
 											>
 												Add to cart
 											</Button>

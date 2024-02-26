@@ -21,25 +21,28 @@ export default function ProductAttributes(props) {
 			if (filteredVariations.length === 1) {
 				dispatch(setHasSelectedVariation(true))
 				dispatch(setSelectedVariation(filteredVariations[0]))
-				dispatch(setIsAvailable(true))
-			}else{
+				dispatch(setIsAvailable(false))
+			} else {
 				dispatch(setHasSelectedVariation(false))
 				dispatch(setSelectedVariation(null))
-				dispatch(setIsAvailable(false))
+				dispatch(setIsAvailable(true))
 			}
 		}
 	}, [selectedAttributes])
 
 	function filterData(filterObject) {
-		const data = product?.variations
-		return data.nodes.filter(node => {
+		const data = product?.variations;
+		return data.nodes.filter((node) => {
 			const attributes = node.attributes.nodes || [];
 			return Object.entries(filterObject).every(([key, value]) => {
-				const matchingAttribute = attributes.find(attr => attr.name.toLowerCase() === key.toLowerCase() && attr.value.toLowerCase() === value.toLowerCase());
+				const matchingAttribute = attributes.find(
+					(attr) => attr.name.toLowerCase() === key.toLowerCase() && (attr.value !== null && attr.value.toLowerCase() === value.toLowerCase() || attr.value === '' && attr.value === '')
+				);
 				return !!matchingAttribute;
 			});
 		});
 	}
+
 	return (
 		<div className='product-filter-wrapper'>
 			{attributes?.map((item, index) => {
