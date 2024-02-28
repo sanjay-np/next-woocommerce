@@ -1,18 +1,20 @@
 import { RefreshCcwIcon } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from 'nextjs13-progress'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 export default function CartSummary() {
+    const { cart } = useSelector((state) => state.sessionSlice)
+
     return (
-        <div>
+        <React.Fragment>
             <div className="summary summary-cart">
                 <h3 className="summary-title">Cart Total</h3>
-
                 <table className="table table-summary">
                     <tbody>
                         <tr className="summary-subtotal">
                             <td>Subtotal:</td>
-                            <td>$160.00</td>
+                            <td><span dangerouslySetInnerHTML={{ __html: cart?.subtotal }} /></td>
                         </tr>
                         <tr className="summary-shipping">
                             <td>Shipping:</td>
@@ -56,7 +58,7 @@ export default function CartSummary() {
 
                         <tr className="summary-total">
                             <td>Total:</td>
-                            <td>$160.00</td>
+                            <td><span dangerouslySetInnerHTML={{ __html: cart?.total }} /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -67,6 +69,6 @@ export default function CartSummary() {
             <Link href={'/shop'} className='continue-shopping-btn'>
                 CONTINUE SHOPPING <RefreshCcwIcon size={16} color='#333' />
             </Link>
-        </div>
+        </React.Fragment>
     )
 }

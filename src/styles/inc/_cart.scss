@@ -85,15 +85,23 @@
 								}
 							}
 
-							.product-title {
-								a {
-									display: inline-block;
+							.product-title-wrapper {
+								.product-title {
+									a {
+										display: inline-block;
+										color: var(--text-light);
+										font-weight: 500;
+										font-size: var(--size-base);
+										line-height: 1.25;
+										margin: 0;
+										letter-spacing: -.01em;
+									}
+								}
+
+								.product-attribute {
 									color: var(--text-light);
-									font-weight: 500;
-									font-size: var(--size-base);
-									line-height: 1.25;
-									margin: 0;
-									letter-spacing: -.01em;
+									font-size: var(--size-sm);
+									padding-right: var(--size-xs);
 								}
 							}
 						}
