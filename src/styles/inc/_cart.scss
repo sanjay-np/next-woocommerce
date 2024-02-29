@@ -165,6 +165,26 @@
 				}
 			}
 
+			.coupon-subtotal {
+				td {
+					border-bottom: .1rem solid #ebebeb;
+
+					&.right {
+						padding-top: 10px;
+						padding-bottom: 10px;
+
+						.remove-coupon-btn {
+							text-align: right;
+							display: block;
+							text-decoration: underline;
+							color: var(--primary-color);
+							font-size: var(--size-sm);
+							width: 100%;
+						}
+					}
+				}
+			}
+
 			.right {
 				text-align: right;
 			}
@@ -177,7 +197,7 @@
 					color: inherit;
 					height: auto;
 					border-bottom: none;
-					padding: 20px 0 10px;
+					padding: 15px 0 10px;
 				}
 			}
 

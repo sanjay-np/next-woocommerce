@@ -1,6 +1,6 @@
 'use client'
 import { Box, Button, Flex, Grid, Group, Pill, Rating, Tabs, TextInput } from '@mantine/core'
-import { CheckCircleIcon, FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, TwitterIcon } from 'lucide-react'
+import { CheckCircleIcon, FacebookIcon, HeartIcon, Instagram, MinusIcon, PlusIcon, ShoppingBagIcon, TwitterIcon, XIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
 import ProductGallery from './ProductGallery'
 import { productPrice } from '@/utils/priceUtil'

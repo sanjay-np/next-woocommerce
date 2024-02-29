@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function CartItems() {
 	const { cart } = useSelector((state) => state.sessionSlice)
 	const dispatch = useDispatch()
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
 	const [products, setProducts] = useState([])
 	const [cartItemCount, setCartItemCount] = useState({})
 	const [coupon, setCoupon] = useState('')
@@ -29,6 +29,7 @@ export default function CartItems() {
 				})
 			})
 		}
+		setLoading(false)
 	}, [cart])
 
 	const rows = products?.map((item) => {
@@ -103,7 +104,6 @@ export default function CartItems() {
 			try {
 				setLoading(true)
 				const res = await applyCoupon(coupon, localStorage.getItem('woo-session'))
-				console.log(res);
 				if (res?.errors) {
 					notifications.show({
 						title: 'Error',
@@ -115,12 +115,15 @@ export default function CartItems() {
 					})
 				} else {
 					if (res?.data?.applyCoupon !== null) {
-						dispatch(updateCart(res?.applyCoupon?.cart))
+						dispatch(updateCart(res?.data?.applyCoupon?.cart))
 					}
 				}
 
 			} catch (err) { console.error(err); }
-			finally { setLoading(false) }
+			finally { 
+				setLoading(false) 
+				setCoupon('')
+			}
 		}
 	}
 	return (

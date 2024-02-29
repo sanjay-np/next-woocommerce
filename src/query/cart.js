@@ -65,3 +65,35 @@ export async function applyCoupon(code, session) {
     const response = await fetchQueryWithSession(query, session)
     return response
 }
+
+export async function removeCoupon(code, session) {
+    const query = {
+        query: `mutation MyMutation {
+            removeCoupons(input: {codes: "${code}"}) {
+                cart{
+                    ...CartContent
+                }
+            }
+        }
+        ${CartContent}
+        `
+    }
+    const response = await fetchQueryWithSession(query, session)
+    return response
+}
+
+export async function updateShippingMethod(method_id, session) {
+    const query = {
+        query: `mutation MyMutation {
+            updateShippingMethod(input: {shippingMethods: "${method_id}"}) {
+                cart {
+                    ...CartContent
+                }
+            }
+        }
+        ${CartContent}
+        `
+    }
+    const response = await fetchQueryWithSession(query, session)
+    return response
+}
