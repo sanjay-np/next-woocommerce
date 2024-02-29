@@ -1,6 +1,7 @@
-import { removeCartItem, updateCartItemsQty } from '@/query/cart';
+import { applyCoupon, removeCartItem, updateCartItemsQty } from '@/query/cart';
 import { updateCart } from '@/store/reducers/sessionSlice';
 import { ActionIcon, Box, Button, Flex, Group, LoadingOverlay, NumberInput, Table, TextInput, UnstyledButton } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { ArrowRightIcon, RefreshCwIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import { Link } from 'nextjs13-progress';
@@ -14,6 +15,7 @@ export default function CartItems() {
 	const [loading, setLoading] = useState(false)
 	const [products, setProducts] = useState([])
 	const [cartItemCount, setCartItemCount] = useState({})
+	const [coupon, setCoupon] = useState('')
 
 	useEffect(() => {
 		setProducts(cart?.contents?.nodes)
@@ -83,11 +85,8 @@ export default function CartItems() {
 			if (res?.updateItemQuantities) {
 				dispatch(updateCart(res?.updateItemQuantities?.cart))
 			}
-		} catch (err) {
-			console.log(err);
-		} finally {
-			setLoading(false)
-		}
+		} catch (err) { console.error(err); }
+		finally { setLoading(false) }
 	}
 	const handleRemoveCart = async (cartKey) => {
 		try {
@@ -96,10 +95,32 @@ export default function CartItems() {
 			if (res?.removeItemsFromCart) {
 				dispatch(updateCart(res?.removeItemsFromCart?.cart))
 			}
-		} catch (err) {
-			console.log(err);
-		} finally {
-			setLoading(false)
+		} catch (err) { console.error(err); }
+		finally { setLoading(false) }
+	}
+	const handleCouponFunc = async () => {
+		if (coupon !== '') {
+			try {
+				setLoading(true)
+				const res = await applyCoupon(coupon, localStorage.getItem('woo-session'))
+				console.log(res);
+				if (res?.errors) {
+					notifications.show({
+						title: 'Error',
+						message: res?.errors[0]?.message,
+						withCloseButton: true,
+						color: 'red',
+						icon: <XIcon />,
+						autoClose: 3000,
+					})
+				} else {
+					if (res?.data?.applyCoupon !== null) {
+						dispatch(updateCart(res?.applyCoupon?.cart))
+					}
+				}
+
+			} catch (err) { console.error(err); }
+			finally { setLoading(false) }
 		}
 	}
 	return (
@@ -120,8 +141,12 @@ export default function CartItems() {
 			<div>
 				<Flex justify={'space-between'}>
 					<Group gap={4}>
-						<TextInput placeholder="Coupon Code" />
-						<ActionIcon variant="default" size="38">
+						<TextInput
+							placeholder="Coupon Code"
+							value={coupon}
+							onChange={(e) => setCoupon(e.target.value)}
+						/>
+						<ActionIcon variant="default" size="38" onClick={handleCouponFunc}>
 							<ArrowRightIcon />
 						</ActionIcon>
 					</Group>

@@ -1,11 +1,14 @@
 import { RefreshCcwIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 export default function CartSummary() {
     const { cart } = useSelector((state) => state.sessionSlice)
-
+    const [cartInfo, setCartInfo] = useState()
+    useEffect(() => {
+        setCartInfo(cart)
+    }, [cart])
     return (
         <React.Fragment>
             <div className="summary summary-cart">
@@ -14,14 +17,14 @@ export default function CartSummary() {
                     <tbody>
                         <tr className="summary-subtotal">
                             <td>Subtotal:</td>
-                            <td><span dangerouslySetInnerHTML={{ __html: cart?.subtotal }} /></td>
+                            <td className='right'><span dangerouslySetInnerHTML={{ __html: cartInfo?.subtotal }} /></td>
                         </tr>
-                        <tr className="summary-shipping">
+                        {/* <tr className="summary-shipping">
                             <td>Shipping:</td>
                             <td>&nbsp;</td>
-                        </tr>
+                        </tr> */}
 
-                        <tr className="summary-shipping-row">
+                        {/* <tr className="summary-shipping-row">
                             <td>
                                 <div className="custom-control custom-radio">
                                     <input type="radio" id="free-shipping" name="shipping" className="custom-control-input" />
@@ -29,9 +32,9 @@ export default function CartSummary() {
                                 </div>
                             </td>
                             <td>$0.00</td>
-                        </tr>
+                        </tr> */}
 
-                        <tr className="summary-shipping-row">
+                        {/* <tr className="summary-shipping-row">
                             <td>
                                 <div className="custom-control custom-radio">
                                     <input type="radio" id="standart-shipping" name="shipping" className="custom-control-input" />
@@ -49,16 +52,16 @@ export default function CartSummary() {
                                 </div>
                             </td>
                             <td>$20.00</td>
-                        </tr>
+                        </tr> */}
 
-                        <tr className="summary-shipping-estimate">
+                        {/* <tr className="summary-shipping-estimate">
                             <td>Estimate for Your Country<br /> <a href="dashboard.html">Change address</a></td>
                             <td>&nbsp;</td>
-                        </tr>
+                        </tr> */}
 
                         <tr className="summary-total">
                             <td>Total:</td>
-                            <td><span dangerouslySetInnerHTML={{ __html: cart?.total }} /></td>
+                            <td className='right'><span dangerouslySetInnerHTML={{ __html: cartInfo?.total }} /></td>
                         </tr>
                     </tbody>
                 </table>

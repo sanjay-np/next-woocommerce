@@ -2,22 +2,25 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setWoocommerceSession } from '../reducers/sessionSlice'
-import { getWoocommerceSession } from '@/query/session'
+import { getWoocommerceSession, getWoocommerceSessionByToken } from '@/query/session'
 
 export default function UserProvider({ children }) {
     const dispatch = useDispatch()
     const initialized = useRef(false)
     const theme = useSelector((state) => state.themeSelectorSlice.theme)
 
-    const getWoocommerceUserSession = async () => {    
+    const getWoocommerceUserSession = async () => {
         const session = localStorage.getItem('woo-session')
-        if(!session){
+        if (!session) {
             const res = await getWoocommerceSession()
-            if(res){
+            if (res !== null) {
                 dispatch(setWoocommerceSession(res))
             }
-        }else{
-            // TODO: fetch customer and cart items with session
+        } else {
+            const res = await getWoocommerceSessionByToken(session)
+            if (res !== null) {
+                dispatch(setWoocommerceSession(res))
+            }
         }
     }
 

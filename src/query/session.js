@@ -1,96 +1,12 @@
 'use server'
-import { fetchQuery } from "@/utils/fetchQuery"
+import { fetchQuery, fetchQueryWithSession } from "@/utils/fetchQuery"
+import { CartContent } from "./fragments/cartFragment"
 
-export async function getWoocommerceSession() {	
-	const query = {
-		query: `{
+export async function getWoocommerceSession() {
+    const query = {
+        query: `{
             cart {
-                contents(first: 100) {
-                    itemCount
-                    nodes {
-                        key
-                        product {
-                            node {
-                                id
-                                databaseId
-                                name
-                                slug
-                                type
-                                image {
-                                    id
-                                    sourceUrl(size:WOOCOMMERCE_THUMBNAIL)
-                                    altText
-                                }
-                                ... on SimpleProduct {
-                                    price
-                                    regularPrice
-                                    soldIndividually
-                                }
-                                ... on VariableProduct {
-                                    price
-                                    regularPrice
-                                    soldIndividually
-                                }
-                            }
-                        }
-                        variation {
-                            attributes {
-                                id
-                                label
-                                name
-                                value
-                            }
-                            node {
-                                id
-                                databaseId
-                                name
-                                slug
-                                image {
-                                    id
-                                    sourceUrl(size:WOOCOMMERCE_THUMBNAIL)
-                                    altText
-                                }
-                                price
-                                regularPrice
-                            }
-                        }
-                        quantity
-                        total
-                        subtotal
-                        subtotalTax
-                        extraData {
-                            key
-                            value
-                        }
-                    }
-                }
-                appliedCoupons {
-                    code
-                    discountAmount
-                    discountTax
-                }
-                needsShippingAddress
-                availableShippingMethods {
-                    packageDetails
-                    supportsShippingCalculator
-                    rates {
-                        id
-                        instanceId
-                        methodId
-                        label
-                        cost
-                    }
-                }
-                subtotal
-                subtotalTax
-                shippingTax
-                shippingTotal
-                total
-                totalTax
-                feeTax
-                feeTotal
-                discountTax
-                discountTotal
+                ...CartContent
             }
             customer{
                 id
@@ -103,11 +19,38 @@ export async function getWoocommerceSession() {
                     country
                 }
             }
-        }`
-	}
-	const response = await fetchQuery(query)
-	return response?.data
+        }
+        ${CartContent}
+        `
+    }
+    const response = await fetchQuery(query)
+    return response?.data
 }
+export async function getWoocommerceSessionByToken(session) {
+    const query = {
+        query: `{
+            cart {
+                ...CartContent
+            }
+            customer{
+                id
+                sessionToken
+                firstName
+                shipping {
+                    postcode
+                    state
+                    city
+                    country
+                }
+            }
+        }
+        ${CartContent}
+        `
+    }
+    const response = await fetchQueryWithSession(query, session)
+    return response?.data
+}
+
 
 // export async function loginFunc(data) {
 // 	const query = {

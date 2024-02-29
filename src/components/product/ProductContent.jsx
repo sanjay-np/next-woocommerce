@@ -54,7 +54,7 @@ export default function ProductContent(props) {
 		return outputArray;
 	}
 	const handeAddToCart = async () => {
-		// TODO: add to cart for variable product
+		// TODO: Show error response
 		try {
 			setLoading(true)
 			let variationQuery = ''
@@ -64,16 +64,27 @@ export default function ProductContent(props) {
 				variationQuery = `variationId: ${variationId}, variation: [${variationArray}],`
 			}
 			const res = await addToCartFunc({ productId: product?.databaseId, variationQuery: variationQuery, quantity: qty }, localStorage.getItem('woo-session'))
-			if (res?.addCartItems) {
+			if (res?.errors) {
 				notifications.show({
-					title: 'Success',
-					message: 'Item added to cart',
+					title: 'Error',
+					message: res?.errors[0]?.message,
 					withCloseButton: true,
-					color: 'white',
-					icon: <CheckCircleIcon color='green' strokeWidth={1.5} />,
+					color: 'red',
+					icon: <XIcon />,
 					autoClose: 3000,
 				})
-				dispatch(updateCart(res?.addCartItems?.cart))
+			} else {
+				if (res?.data.addCartItems) {
+					notifications.show({
+						title: 'Success',
+						message: 'Item added to cart',
+						withCloseButton: true,
+						color: 'white',
+						icon: <CheckCircleIcon color='green' strokeWidth={1.5} />,
+						autoClose: 3000,
+					})
+					dispatch(updateCart(res?.data.addCartItems?.cart))
+				}
 			}
 		} catch (err) {
 			console.log(err);
