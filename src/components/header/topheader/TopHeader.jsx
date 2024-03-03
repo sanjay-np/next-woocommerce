@@ -1,9 +1,10 @@
 import React from 'react'
-import { Container, Flex, Grid, Input } from '@mantine/core';
-import { HeartIcon, SearchIcon, ShuffleIcon } from 'lucide-react'
+import { Container, Flex, Grid } from '@mantine/core';
+import { HeartIcon, ShuffleIcon } from 'lucide-react'
 import { Link } from 'nextjs13-progress';
 import Image from 'next/image'
 import MiniCart from '@/components/cart/miniCart/MiniCart';
+import Search from '@/components/search/Search';
 
 export default function TopHeader() {
 	return (
@@ -21,12 +22,7 @@ export default function TopHeader() {
 					</Grid.Col>
 					<Grid.Col span={7}>
 						<div className="middle-content">
-							<Input
-								placeholder="Search Products..."
-								size='md'
-								rightSectionPointerEvents="all"
-								rightSection={<SearchIcon size={20} strokeWidth={1.5} color='#777' />}
-							/>
+							<Search />
 						</div>
 					</Grid.Col>
 					<Grid.Col span={3}>

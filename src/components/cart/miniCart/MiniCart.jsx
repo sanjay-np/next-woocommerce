@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { updateCart } from '@/store/reducers/sessionSlice';
 import { removeCartItem } from '@/query/cart';
+import Empty from '@/components/empty/Empty';
 
 export default function MiniCart() {
 	const router = useRouter()
@@ -37,7 +38,7 @@ export default function MiniCart() {
 			}
 		} catch (err) {
 			console.log(err);
-		}finally{
+		} finally {
 			setLoading(false)
 		}
 	}
@@ -61,7 +62,11 @@ export default function MiniCart() {
 
 					<Box pos={'relative'}>
 						<LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 1 }} loaderProps={{ color: '#C96', type: 'bars' }} />
+						{cartCount === 0 && (
+							<Empty />
+						)}
 						{products?.map((item) => {
+							const price = item?.variation ? item?.variation?.node.price : item?.product?.node?.price
 							return (
 								<React.Fragment key={item?.key}>
 									<div className="mini-cart-item">
@@ -75,9 +80,16 @@ export default function MiniCart() {
 												<Stack gap={5}>
 													<div className="product-details">
 														<h4 className="product-title"><a href="#">{item?.product?.node?.name}</a></h4>
+														{item?.variation && (
+															<p>
+																{item?.variation.attributes.map((attr, index) => (
+																	<span key={index} className='product-attribute'>{attr?.label}: {attr?.value}</span>
+																))}
+															</p>
+														)}
 														<span className="product-info">
 															<span className="productQty">{item?.quantity}</span>
-															x <span dangerouslySetInnerHTML={{ __html: item?.product?.node?.price }} />
+															x <span dangerouslySetInnerHTML={{ __html: price }} />
 															= <span dangerouslySetInnerHTML={{ __html: item?.total }} />
 														</span>
 													</div>
@@ -90,18 +102,23 @@ export default function MiniCart() {
 							)
 						})}
 					</Box>
-					<div className="cart-total">
-						<Group justify="space-between">
-							<span>Total</span>
-							<span className="cart-total-price"><span dangerouslySetInnerHTML={{ __html: cart?.total }} /></span>
-						</Group>
-					</div>
-					<div className="cart-action">
-						<Group justify='space-between' grow wrap='wrap'>
-							<Button radius={0} className='cart-btn btn' onClick={handleCartClick}>View Cart</Button>
-							<Button radius={0} variant="outline" className='checkout-btn btn' rightSection={<ArrowRight size={16} />}>Checkout</Button>
-						</Group>
-					</div>
+					{cartCount !== 0 && (
+						<>
+							<div className="cart-total">
+								<Group justify="space-between">
+									<span>Total</span>
+									<span className="cart-total-price"><span dangerouslySetInnerHTML={{ __html: cart?.total }} /></span>
+								</Group>
+							</div>
+							<div className="cart-action">
+								<Group justify='space-between' grow wrap='wrap'>
+									<Button radius={0} className='cart-btn btn' onClick={handleCartClick}>View Cart</Button>
+									<Button radius={0} variant="outline" className='checkout-btn btn' rightSection={<ArrowRight size={16} />}>Checkout</Button>
+								</Group>
+							</div>
+						</>
+					)}
+
 				</div>
 			</Drawer>
 		</>

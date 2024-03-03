@@ -25,11 +25,9 @@ export default function BottomHeader(props) {
 					</Grid.Col>
 					<Grid.Col span={6}>
 						<div className="header-center">
-							<Flex gap={{ base: 'sm', sm: 'lg' }} justify={'space-between'}>
+							<Flex gap={{ base: 'sm', sm: 'lg' }} justify={'flex-start'}>
 								<Link href="/"><p>Home</p></Link>
 								<Link href="/shop"><p>Shop</p></Link>
-								<Link href="#"><p>Products</p></Link>
-								<Link href="#"><p>Best Deals</p></Link>
 								<Link href="#"><p>Blogs</p></Link>
 								<Link href="#"><p>Contact Us</p></Link>
 							</Flex>

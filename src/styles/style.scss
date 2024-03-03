@@ -54,6 +54,19 @@ button.primary-btn {
 	border-radius: var(--border-radius)
 }
 
+.empty-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-height: 300px;
+
+	p {
+		font-size: var(--size-base);
+		color: var(--text-light)
+	}
+}
+
 @import './inc/loader';
 @import './inc/header';
 @import './inc//cart';

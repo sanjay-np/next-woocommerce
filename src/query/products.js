@@ -1,3 +1,4 @@
+'use server'
 import { fetchQuery } from "@/utils/fetchQuery"
 
 export async function fetchProducts(first, after, where = '') {
@@ -232,4 +233,38 @@ export async function fetchProductSizes() {
 	}
 	const response = await fetchQuery(query)
 	return response?.data?.allPaSize?.nodes
-}   
+}
+
+export async function searchProducts(searchTxt) {
+	const query = {
+		query: `{
+			products(where: {search: "${searchTxt}"}) {
+			  	edges {
+					node {
+						id
+						databaseId
+						name
+						slug
+						type
+						reviewCount
+						image {
+							mediaItemUrl
+						}
+						... on SimpleProduct {
+							price(format: RAW)
+							regularPrice(format: RAW)
+							soldIndividually
+						}
+						... on VariableProduct {
+							price(format: RAW)
+							regularPrice(format: RAW)
+							soldIndividually
+						}
+					}
+			  	}
+			}
+		}`
+	}
+	const response = await fetchQuery(query)
+	return response
+}
