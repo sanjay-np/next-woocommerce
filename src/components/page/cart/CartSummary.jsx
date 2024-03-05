@@ -12,10 +12,12 @@ export default function CartSummary() {
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch()
     const [cartInfo, setCartInfo] = useState()
+    const [customerInfo, setCustomerInfo] = useState()
     useEffect(() => {
         setCartInfo(cart)
         setLoading(false)
-    }, [cart])
+        setCustomerInfo(customer)
+    }, [cart, customer])
 
     const handleRemoveCoupon = async (code) => {
         try {
@@ -140,7 +142,7 @@ export default function CartSummary() {
                             </tr>
                         </tbody>
                     </table>
-                    <Link href={customer?.checkoutUrl} className=" btn-order">
+                    <Link href={`${customerInfo?.checkoutUrl}`} className=" btn-order">
                         PROCEED TO CHECKOUT
                     </Link>
                 </Box>
