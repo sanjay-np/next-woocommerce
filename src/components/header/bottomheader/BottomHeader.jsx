@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Flex, Grid, Group, Switch, UnstyledButton } from '@mantine/core';
 import { User2Icon } from 'lucide-react'
 import { Link } from 'nextjs13-progress';
@@ -7,6 +7,7 @@ import { useDisclosure } from '@mantine/hooks';
 import LoginModal from '@/components/modals/LoginModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme } from '@/store/reducers/themeSelectorSlice';
+import UserMenu from '../menus/UserMenu';
 
 export default function BottomHeader(props) {
 	const [catMenuState, catMenuHandlers] = useDisclosure();
@@ -14,6 +15,13 @@ export default function BottomHeader(props) {
 	const { catMenuItems } = props
 	const theme = useSelector((state) => state.themeSelectorSlice.theme)
 	const dispatch = useDispatch()
+	const { customer } = useSelector((state) => state.sessionSlice)
+	const [customerInfo, setCustomerInfo] = useState('')
+	useEffect(() => {
+		if (customer) {
+			setCustomerInfo(customer)
+		}
+	}, [customer])
 	return (
 		<div className="bottom-header-wrapper">
 			<Container size={'lg'}>
@@ -38,7 +46,7 @@ export default function BottomHeader(props) {
 							<Group justify='flex-end'>
 								<Flex gap={{ base: 'sm', sm: 'sm' }} justify={'flex-end'} align={'center'}>
 									<User2Icon size={18} />
-									<UnstyledButton onClick={() => { loginModalHandlers.open() }}>Login/Register</UnstyledButton>
+									{customerInfo?.id !== 'guest' ? <UserMenu name={customerInfo?.displayName} /> : <UnstyledButton onClick={() => { loginModalHandlers.open() }}>Login/Register</UnstyledButton>}
 								</Flex>
 								<Switch
 									checked={theme === 'light' ? false : true}

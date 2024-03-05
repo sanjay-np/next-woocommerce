@@ -9,7 +9,7 @@ import Empty from '@/components/empty/Empty'
 export default function CartTable() {
     const { cart } = useSelector((state) => state.sessionSlice)
     const count = cart?.contents?.nodes.length
-    if(count === 0) {
+    if (count === 0) {
         return <Empty size={100} />
     }
     return (

@@ -5,7 +5,6 @@ import { Link } from 'nextjs13-progress'
 import React from 'react'
 
 export default function Page() {
-
 	return (
 		<div className='cart-page'>
 			<div className="breadcrumb-wrapper">

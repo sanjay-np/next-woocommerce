@@ -21,12 +21,16 @@ export const sessionSlice = createSlice({
             state.customer = action.payload?.customer
         },
         updateCustomer(state, action) {
-
+            console.log(action.payload);
+            localStorage.setItem('customer', JSON.stringify(action.payload))
+            localStorage.setItem('woo-session', action.payload?.sessionToken)
+            state.customer = action.payload
         },
         updateCart(state, action) {
             localStorage.setItem('cart', JSON.stringify(action.payload))
             state.cart = action.payload
+            state.isAuthenticated = true
         }
     }
 })
-export const { setWoocommerceSession, updateCart } = sessionSlice.actions
+export const { setWoocommerceSession, updateCart, updateCustomer } = sessionSlice.actions

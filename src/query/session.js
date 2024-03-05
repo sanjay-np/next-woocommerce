@@ -18,6 +18,9 @@ export async function getWoocommerceSession() {
                     city
                     country
                 }
+                checkoutUrl
+                accountUrl
+                displayName
             }
         }
         ${CartContent}
@@ -42,6 +45,9 @@ export async function getWoocommerceSessionByToken(session) {
                     city
                     country
                 }
+                checkoutUrl
+                accountUrl
+                displayName
             }
         }
         ${CartContent}
@@ -52,18 +58,29 @@ export async function getWoocommerceSessionByToken(session) {
 }
 
 
-// export async function loginFunc(data) {
-// 	const query = {
-// 		query: `mutation login {
-// 			login(input: {password: "${data?.password}", username: "${data?.email}"}) {
-// 				authToken
-// 				refreshToken
-// 				customer {
-// 				  sessionToken
-// 				}
-// 			}
-// 		}`
-// 	}
-// 	const response = await fetchQuery(query)
-// 	return response
-// }
+export async function loginFunc(data, session) {
+	const query = {
+		query: `mutation login {
+			login(input: {password: "${data?.password}", username: "${data?.email}"}) {
+				authToken
+				refreshToken
+				customer {
+                    id
+                    sessionToken
+                    firstName
+                    shipping {
+                        postcode
+                        state
+                        city
+                        country
+                    }
+                    checkoutUrl
+                    accountUrl
+                    displayName
+				}
+			}
+		}`
+	}
+	const response = await fetchQueryWithSession(query, session)
+	return response
+}

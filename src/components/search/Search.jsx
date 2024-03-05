@@ -1,8 +1,9 @@
 import { searchProducts } from '@/query/products'
 import { productPrice } from '@/utils/priceUtil'
-import { Group, Input, Loader } from '@mantine/core'
+import { Group, Input, Loader, UnstyledButton } from '@mantine/core'
 import { SearchIcon } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Link } from 'nextjs13-progress'
 import React, { useState } from 'react'
 
@@ -10,6 +11,7 @@ export default function Search() {
     const [searchTxt, setSearchTxt] = useState('')
     const [searchResults, setSearchResults] = useState([])
     const [isSearching, setIsSearching] = useState(false)
+    const router = useRouter()
     const handleSearchChange = async (event) => {
         setSearchTxt(event.target.value)
         setSearchResults([])
@@ -29,6 +31,10 @@ export default function Search() {
         if (event.target.value === '') {
             setSearchResults([])
         }
+    }
+    const handleItemClick = (url) => {
+        setSearchResults([])
+        router.push(url)
     }
     return (
         <React.Fragment>
@@ -52,7 +58,7 @@ export default function Search() {
                 {searchResults.length !== 0 && searchResults.map((item) => (
                     <React.Fragment key={item?.node.id}>
                         <div className="search-item">
-                            <Link href={`/product/${item?.node.slug}`}>
+                            <UnstyledButton onClick={() => { handleItemClick(`/product/${item?.node.slug}`) }}>
                                 <Group>
                                     <div className="item-image">
                                         <Image
@@ -68,7 +74,7 @@ export default function Search() {
                                         <div className="price">${productPrice(item?.node.price)}</div>
                                     </div>
                                 </Group>
-                            </Link>
+                            </UnstyledButton>
                         </div>
                     </React.Fragment>
                 ))}

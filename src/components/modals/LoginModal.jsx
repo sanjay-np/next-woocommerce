@@ -1,12 +1,17 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Checkbox, Flex, Group, Modal, PasswordInput, Stack, TextInput, } from '@mantine/core';
 import { isEmail, isNotEmpty, useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-// import { loginFunc } from '@/query/session';
+import { loginFunc } from '@/query/session';
 import { XIcon } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { updateCustomer } from '@/store/reducers/sessionSlice';
 
 export default function LoginModal(props) {
+
+	const dispatch = useDispatch()
+	const [loading, setLoading] = useState(false)
 
 	const form = useForm({
 		initialValues: {
@@ -22,41 +27,51 @@ export default function LoginModal(props) {
 	});
 
 	const handleFormSubmit = async (values) => {
-		// const res = await loginFunc(values)
-		// console.log(res);
-		// if (res?.errors && res?.errors.length > 0) {
-		// 	const msg = res?.errors[0]?.message
-		// 	switch (msg) {
-		// 		case "incorrect_password":
-		// 			notifications.show({
-		// 				title: "Login failed.",
-		// 				message: 'Please check you credentials and try again.',
-		// 				withCloseButton: true,
-		// 				icon: <XIcon />,
-		// 				color: "red"
-
-		// 			});
-		// 			break;
-		// 		case "invalid_username":
-		// 			notifications.show({
-		// 				title: "Login failed.",
-		// 				message: 'User not found with provided email address.',
-		// 				withCloseButton: true,
-		// 				icon: <XIcon />,
-		// 				color: "red"
-		// 			});
-		// 			break;
-		// 		case "invalid_email":
-		// 			notifications.show({
-		// 				title: "Login failed.",
-		// 				message: 'Entered email address not found.',
-		// 				withCloseButton: true,
-		// 				icon: <XIcon />,
-		// 				color: "red"
-		// 			});
-		// 			break;
-		// 	}
-		// }
+		try {
+			setLoading(true)
+			const res = await loginFunc(values, localStorage.getItem('woo-session'))
+			if (res?.errors && res?.errors.length > 0) {
+				const msg = res?.errors[0]?.message
+				switch (msg) {
+					case "incorrect_password":
+						notifications.show({
+							title: "Login failed.",
+							message: 'Please check you credentials and try again.',
+							withCloseButton: true,
+							icon: <XIcon />,
+							color: "red"
+						});
+						break;
+					case "invalid_username":
+						notifications.show({
+							title: "Login failed.",
+							message: 'User not found with provided email address.',
+							withCloseButton: true,
+							icon: <XIcon />,
+							color: "red"
+						});
+						break;
+					case "invalid_email":
+						notifications.show({
+							title: "Login failed.",
+							message: 'Entered email address not found.',
+							withCloseButton: true,
+							icon: <XIcon />,
+							color: "red"
+						});
+						break;
+				}
+			} else {
+				if (res?.data?.login) {
+					dispatch(updateCustomer(res?.data?.login?.customer))
+					// props.method.close()
+				}
+			}
+		} catch (err) {
+			console.error(err);
+		} finally {
+			setLoading(false)
+		}
 	}
 	return (
 		<Modal opened={props.state} onClose={() => { props.method.close() }} centered>
@@ -94,7 +109,7 @@ export default function LoginModal(props) {
 							</Stack>
 						</div>
 						<Group justify="flex-end" mt="md">
-							<Button type="submit" className='primary-btn'>Submit</Button>
+							<Button type="submit" className='primary-btn' loading={loading}>Submit</Button>
 						</Group>
 					</form>
 				</Box>

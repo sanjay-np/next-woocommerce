@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function CartSummary() {
-    const { cart } = useSelector((state) => state.sessionSlice)
+    const { cart, customer } = useSelector((state) => state.sessionSlice)
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch()
     const [cartInfo, setCartInfo] = useState()
@@ -140,7 +140,7 @@ export default function CartSummary() {
                             </tr>
                         </tbody>
                     </table>
-                    <Link href="/checkout" className=" btn-order">
+                    <Link href={customer?.checkoutUrl} className=" btn-order">
                         PROCEED TO CHECKOUT
                     </Link>
                 </Box>
